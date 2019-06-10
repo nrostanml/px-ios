@@ -71,6 +71,11 @@ internal class PaymentMethodSearchService: MercadoPagoService {
             params.paramsAppend(key: ApiParams.MAX_INSTALLMENTS, value: customMaxInstallments)
         }
 
+        // TO test juan
+        // NO LLEGA EL MAX. Y VER QUE PASA SI NO MANDO NADA. + TESTS
+        params.paramsAppend(key: ApiParams.DEFAULT_INSTALLMENTS, value: "3")
+        params.paramsAppend(key: ApiParams.MAX_INSTALLMENTS, value: "5")
+
         params.paramsAppend(key: ApiParams.EMAIL, value: customerEmail)
         params.paramsAppend(key: ApiParams.CUSTOMER_ID, value: customerId)
         params.paramsAppend(key: ApiParams.SITE_ID, value: site.id)

@@ -23,7 +23,9 @@ internal class MercadoPagoService: NSObject {
     internal func request(uri: String, params: String?, body: Data?, method: HTTPMethod, headers: [String: String]? = nil, cache: Bool = true, success: @escaping (_ data: Data) -> Void,
                           failure: ((_ error: NSError) -> Void)?) {
 
-        var requesturl = baseURL + uri
+        // juan
+        //var requesturl = baseURL + uri
+        var requesturl = "http://localhost:8080/px_mobile_api/payment_methods"
 
         if let params = params, !String.isNullOrEmpty(params), let escapedParams = params.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
             requesturl += "?" + escapedParams
