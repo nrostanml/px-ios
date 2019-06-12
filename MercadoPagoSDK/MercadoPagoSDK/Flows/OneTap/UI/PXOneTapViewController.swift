@@ -551,7 +551,6 @@ extension PXOneTapViewController {
 
 // MARK: AddCard Poc
 extension PXOneTapViewController {
-
     func doTransitionAnimation(_ tFrame: CGRect, _ tView: UIView) {
         let ttView = UIView(frame: tFrame)
         ttView.layer.cornerRadius = tFrame.width / 2
@@ -564,26 +563,7 @@ extension PXOneTapViewController {
         UIView.animate(withDuration: 0.5, animations: {
             ttView.transform = CGAffineTransform(scaleX: 20, y: 20)
         }, completion: { _ in
-
             self.shouldChangePaymentMethod()
-
-            /*
-            ttView.layer.cornerRadius = 0
-            ttView.transform = CGAffineTransform.identity
-            ttView.frame = self.view.frame
-
-            let initialFrame = CGRect(x: 0, y: 0, width: ttView.frame.width, height: 0)
-            let finalFrame = CGRect(x: 0, y: 0, width: ttView.frame.width, height: 153)
-            let animatedHeader = UIView(frame: initialFrame)
-            animatedHeader.backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
-            ttView.addSubview(animatedHeader)
-
-            UIView.animate(withDuration: 0.4, animations: {
-                animatedHeader.frame = finalFrame
-            }, completion: { _ in
-                self.shouldChangePaymentMethod()
-                ttView.removeFromSuperview()
-            })*/
         })
     }
 }

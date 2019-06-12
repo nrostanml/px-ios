@@ -49,8 +49,6 @@ extension MercadoPagoCheckout {
         addCardVC.modalTransitionStyle = .crossDissolve
         addCardVC.modalPresentationStyle = .fullScreen
         viewModel.pxNavigationHandler.navigationController?.present(addCardVC, animated: true, completion: nil)
-
-        //viewModel.pxNavigationHandler.pushViewController(viewController: paymentMethodSelectionStep, animated: true)
     }
 
     func showCardForm() {
