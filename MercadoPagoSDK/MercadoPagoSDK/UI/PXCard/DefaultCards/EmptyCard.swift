@@ -23,7 +23,9 @@ class EmptyCard: NSObject, CardUI {
 }
 
 extension EmptyCard {
-    static func render(containerView: UIView) {
+
+    @discardableResult
+    static func render(containerView: UIView) -> UIView {
         let circleView = UIView()
         let circleSize: CGFloat = 60
         containerView.addSubview(circleView)
@@ -56,5 +58,7 @@ extension EmptyCard {
         PXLayout.setWidth(owner: addImage, width: imageSize).isActive = true
         PXLayout.centerVertically(view: addImage).isActive = true
         PXLayout.centerHorizontally(view: addImage).isActive = true
+
+        return circleView
     }
 }
