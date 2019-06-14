@@ -139,9 +139,9 @@ internal class MercadoPagoServicesAdapter {
         return NSError(domain: "com.mercadopago.sdk", code: NSURLErrorCannotDecodeContentData, userInfo: [NSLocalizedDescriptionKey: "Hubo un error"])
     }
 
-    open func getSummaryAmount(bin: String?, amount: Double, issuer: PXIssuer?, paymentMethodId: String, payment_type_id: String, differentialPricingId: String?, siteId: String?, marketplace: String?, discountParamsConfiguration: PXDiscountParamsConfiguration?, payer: PXPayer, defaultInstallments: Int?, charges: [PXPaymentTypeChargeRule]?, callback: @escaping (PXSummaryAmount) -> Void, failure: @escaping ((_ error: NSError) -> Void)) {
+    open func getSummaryAmount(bin: String?, amount: Double, issuer: PXIssuer?, paymentMethodId: String, payment_type_id: String, differentialPricingId: String?, siteId: String?, marketplace: String?, discountParamsConfiguration: PXDiscountParamsConfiguration?, payer: PXPayer, defaultInstallments: Int?, charges: [PXPaymentTypeChargeRule]?, maxInstallments: Int?, callback: @escaping (PXSummaryAmount) -> Void, failure: @escaping ((_ error: NSError) -> Void)) {
 
-        mercadoPagoServices.getSummaryAmount(bin: bin, amount: amount, issuerId: issuer?.id, paymentMethodId: paymentMethodId, payment_type_id: payment_type_id, differentialPricingId: differentialPricingId, siteId: siteId, marketplace: marketplace, discountParamsConfiguration: discountParamsConfiguration, payer: payer, defaultInstallments: defaultInstallments, charges: charges, callback: { [weak self] (summaryAmount) in
+        mercadoPagoServices.getSummaryAmount(bin: bin, amount: amount, issuerId: issuer?.id, paymentMethodId: paymentMethodId, payment_type_id: payment_type_id, differentialPricingId: differentialPricingId, siteId: siteId, marketplace: marketplace, discountParamsConfiguration: discountParamsConfiguration, payer: payer, defaultInstallments: defaultInstallments, charges: charges, maxInstallments: maxInstallments, callback: { [weak self] (summaryAmount) in
                 guard let strongSelf = self else {
                     return
                 }

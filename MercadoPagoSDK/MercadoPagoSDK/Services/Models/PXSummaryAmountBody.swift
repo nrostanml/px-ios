@@ -19,11 +19,12 @@ class PXSummaryAmountBody: Codable {
     let issuerId: String?
     let labels: [String]?
     let defaultInstallments: Int?
+    let maxInstallments: Int?
     let differentialPricingId: String?
     let processingMode: String?
     let charges: [PXPaymentTypeChargeRule]?
 
-    init(siteId: String?, transactionAmount: String?, marketplace: String?, email: String?, productId: String?, paymentMethodId: String?, paymentType: String?, bin: String?, issuerId: String?, labels: [String]?, defaultInstallments: Int?, differentialPricingId: String?, processingMode: String?, charges: [PXPaymentTypeChargeRule]?) {
+    init(siteId: String?, transactionAmount: String?, marketplace: String?, email: String?, productId: String?, paymentMethodId: String?, paymentType: String?, bin: String?, issuerId: String?, labels: [String]?, defaultInstallments: Int?, differentialPricingId: String?, processingMode: String?, charges: [PXPaymentTypeChargeRule]?, maxInstallments: Int?) {
         self.siteId = siteId
         self.transactionAmount = transactionAmount
         self.marketplace = marketplace
@@ -35,6 +36,7 @@ class PXSummaryAmountBody: Codable {
         self.issuerId = issuerId
         self.labels = labels
         self.defaultInstallments = defaultInstallments
+        self.maxInstallments = maxInstallments
         self.differentialPricingId = differentialPricingId
         self.processingMode = processingMode
         self.charges = charges
@@ -52,6 +54,7 @@ class PXSummaryAmountBody: Codable {
         case issuerId = "issuer_id"
         case labels
         case defaultInstallments = "default_installments"
+        case maxInstallments = "max_installments"
         case differentialPricingId = "differential_pricing_id"
         case processingMode = "processing_mode"
         case charges
@@ -70,6 +73,7 @@ class PXSummaryAmountBody: Codable {
         try container.encodeIfPresent(self.issuerId, forKey: .issuerId)
         try container.encodeIfPresent(self.labels, forKey: .labels)
         try container.encodeIfPresent(self.defaultInstallments, forKey: .defaultInstallments)
+        try container.encodeIfPresent(self.maxInstallments, forKey: .maxInstallments)
         try container.encodeIfPresent(self.differentialPricingId, forKey: .differentialPricingId)
         try container.encodeIfPresent(self.processingMode, forKey: .processingMode)
         try container.encodeIfPresent(self.charges, forKey: .charges)

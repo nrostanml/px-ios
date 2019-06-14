@@ -33,11 +33,11 @@ internal class PaymentService: MercadoPagoService {
         })
     }
 
-    open func getSummaryAmount(uri: String = PXServicesURLConfigs.MP_SUMMARY_AMOUNT_URI, bin: String?, amount: Double, issuerId: String?, payment_method_id: String, payment_type_id: String, differential_pricing_id: String?, siteId: String?, marketplace: String?, discountParamsConfiguration: PXDiscountParamsConfiguration?, payer: PXPayer, defaultInstallments: Int?, charges: [PXPaymentTypeChargeRule]?, success: @escaping (PXSummaryAmount) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
+    open func getSummaryAmount(uri: String = PXServicesURLConfigs.MP_SUMMARY_AMOUNT_URI, bin: String?, amount: Double, issuerId: String?, payment_method_id: String, payment_type_id: String, differential_pricing_id: String?, siteId: String?, marketplace: String?, discountParamsConfiguration: PXDiscountParamsConfiguration?, payer: PXPayer, defaultInstallments: Int?, charges: [PXPaymentTypeChargeRule]?, maxInstallments: Int?, success: @escaping (PXSummaryAmount) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
 
         let params: String = MercadoPagoServices.getParamsPublicKeyAndAcessToken(merchantPublicKey, payerAccessToken)
 
-        let body = PXSummaryAmountBody(siteId: siteId, transactionAmount: String(format: "%.2f", amount), marketplace: marketplace, email: payer.email, productId: discountParamsConfiguration?.productId, paymentMethodId: payment_method_id, paymentType: payment_type_id, bin: bin, issuerId: issuerId, labels: discountParamsConfiguration?.labels, defaultInstallments: defaultInstallments, differentialPricingId: differential_pricing_id, processingMode: processingMode, charges: charges)
+        let body = PXSummaryAmountBody(siteId: siteId, transactionAmount: String(format: "%.2f", amount), marketplace: marketplace, email: payer.email, productId: discountParamsConfiguration?.productId, paymentMethodId: payment_method_id, paymentType: payment_type_id, bin: bin, issuerId: issuerId, labels: discountParamsConfiguration?.labels, defaultInstallments: defaultInstallments, differentialPricingId: differential_pricing_id, processingMode: processingMode, charges: charges, maxInstallments: maxInstallments)
         let bodyJSON = try? body.toJSON()
 
         self.request( uri: uri, params: params, body: bodyJSON, method: HTTPMethod.post, cache: false, success: {(data: Data) -> Void in
