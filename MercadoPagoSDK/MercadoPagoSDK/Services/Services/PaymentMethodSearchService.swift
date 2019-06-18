@@ -45,7 +45,8 @@ internal class PaymentMethodSearchService: MercadoPagoService {
 
         var params = MercadoPagoServices.getParamsPublicKey(merchantPublicKey)
 
-        params.paramsAppend(key: ApiParams.AMOUNT, value: String(amount))
+        let roundedAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: amount)
+        params.paramsAppend(key: ApiParams.AMOUNT, value: roundedAmount.stringValue)
 
         let newExcludedPaymentTypesIds = excludedPaymentTypeIds
 

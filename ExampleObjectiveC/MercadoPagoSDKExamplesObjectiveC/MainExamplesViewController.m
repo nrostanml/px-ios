@@ -209,9 +209,13 @@
 }
 
 -(void)setCheckoutPref_CreditCardNotExcluded {
-    PXItem *item = [[PXItem alloc] initWithTitle:@"title" quantity:1 unitPrice:3500.0];
+    PXItem *item = [[PXItem alloc] initWithTitle:@"title" quantity:1 unitPrice:147.21];
 
-    NSArray *items = [NSArray arrayWithObjects:item, nil];
+    PXItem *item2 = [[PXItem alloc] initWithTitle:@"title 2" quantity:1 unitPrice:138];
+
+    PXItem *item3 = [[PXItem alloc] initWithTitle:@"title 3" quantity:4 unitPrice:28.5];
+
+    NSArray *items = [NSArray arrayWithObjects:item, item2, item3, nil];
 
     self.pref = [[PXCheckoutPreference alloc] initWithSiteId:@"MLA" payerEmail:@"sara@gmail.com" items:items];
 //    [self.pref addExcludedPaymentType:@"ticket"];
