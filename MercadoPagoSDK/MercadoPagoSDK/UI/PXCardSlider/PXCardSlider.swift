@@ -112,6 +112,10 @@ extension PXCardSlider {
             self?.pageControl.alpha = 0
         }
     }
+
+    func getCollection() -> UICollectionView {
+        return pagerView.getCollection()
+    }
 }
 
 // MARK: Privates

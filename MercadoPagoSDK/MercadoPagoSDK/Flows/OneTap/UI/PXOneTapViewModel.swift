@@ -27,6 +27,9 @@ final class PXOneTapViewModel: PXReviewViewModel {
         super.init(amountHelper: amountHelper, paymentOptionSelected: paymentOptionSelected, advancedConfig: advancedConfig, userLogged: userLogged)
     }
 
+    func getCardUIData(_ forIndex: Int) -> (cardData: CardData?, cardUI: CardUI?) {
+        return (cardSliderViewModel[forIndex].cardData, cardSliderViewModel[forIndex].cardUI)
+    }
 }
 
 // MARK: ViewModels Publics.

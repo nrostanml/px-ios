@@ -105,6 +105,8 @@ extension PXOneTapViewController {
                 viewModel.amountHelper.getPaymentData().payerCost = preSelectedCard.selectedPayerCost
             }
             renderViews()
+
+            registerForPreviewing(with: self, sourceView: slider.getCollection())
         }
     }
 
@@ -538,5 +540,58 @@ extension PXOneTapViewController {
 
     func unsubscribeFromNotifications() {
         PXNotificationManager.UnsuscribeTo.animateButton(loadingButtonComponent)
+    }
+}
+
+extension PXOneTapViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        if let indexPath = slider.getCollection().indexPathForItem(at: location) {
+            let (cardDataProtocol, cardUIProtocol) = viewModel.getCardUIData(indexPath.item)
+            if let cardData = cardDataProtocol, let cardUI = cardUIProtocol {
+                let cardDrawerVc = CardHeaderController(cardUI, cardData, false)
+                let previewController = PreviewController()
+                previewController.renderCard(controller: cardDrawerVc)
+                return previewController
+            }
+        }
+        return nil
+    }
+
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+    }
+}
+
+class PreviewController: UIViewController {
+    private let size = PXCardSliderSizeManager.getItemContainerSize()
+    private let containerView = UIView(frame: .zero)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    func renderCard(controller: CardHeaderController) {
+        setupContainerView()
+        controller.view.frame = CGRect(origin: CGPoint.zero, size: size)
+        containerView.addSubview(controller.view)
+        controller.animated(false)
+        controller.show()
+    }
+
+    private func setupContainerView() {
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(containerView)
+        containerView.heightAnchor.constraint(equalToConstant: size.height).isActive = true
+        containerView.widthAnchor.constraint(equalToConstant: size.width).isActive = true
+        containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+
+    override var previewActionItems: [UIPreviewActionItem] {
+        let primary = UIPreviewAction(title: "Utilizar como tarjeta primara", style: .default) { (_, _) in
+        }
+        let delete = UIPreviewAction(title: "Eliminar tarjeta", style: .destructive) { (_, _) in
+        }
+        return [primary, delete]
     }
 }

@@ -644,4 +644,8 @@ extension FSPagerView {
     /// Requests that FSPagerView use the default value for a given size.
     public static let automaticSize: CGSize = .zero
 
+
+    func getCollection() -> UICollectionView {
+        return collectionView
+    }
 }
