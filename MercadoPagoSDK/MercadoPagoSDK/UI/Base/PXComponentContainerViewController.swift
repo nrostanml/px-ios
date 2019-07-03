@@ -119,12 +119,12 @@ extension PXComponentContainerViewController: UIScrollViewDelegate {
         navigationItem.titleView = titleView
     }
 
-    func refreshContentViewSize() {
+    func refreshContentViewSize(_ offset: CGFloat = 0) {
         var height: CGFloat = 0
         for view in contentView.getSubviews() {
             height += view.frame.height
         }
-        height += contentView.getCarryMarginY()
+        height += contentView.getCarryMarginY() + offset
         contentView.fixHeight(height: height)
         scrollView.contentSize = CGSize(width: PXLayout.getScreenWidth(), height: height)
         view.layoutIfNeeded()

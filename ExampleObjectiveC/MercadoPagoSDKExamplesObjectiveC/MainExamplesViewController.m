@@ -103,12 +103,12 @@
     [advancedConfig setReviewConfirmDynamicViewsConfiguration:[self getReviewScreenDynamicViewsConfigurationObject]];
 
     // Add ReviewConfirm Dynamic View Controller configuration to advanced config.
-    TestComponent *dynamicViewControllersConfigObject = [self getReviewScreenDynamicViewControllerConfigurationObject];
-    [advancedConfig setDynamicViewControllersConfiguration: [NSArray arrayWithObjects: dynamicViewControllersConfigObject, nil]];
-    [advancedConfig setReviewConfirmDynamicViewsConfiguration:[self getReviewScreenDynamicViewsConfigurationObject]];
+    // TestComponent *dynamicViewControllersConfigObject = [self getReviewScreenDynamicViewControllerConfigurationObject];
+    // [advancedConfig setDynamicViewControllersConfiguration: [NSArray arrayWithObjects: dynamicViewControllersConfigObject, nil]];
+    // [advancedConfig setReviewConfirmDynamicViewsConfiguration:[self getReviewScreenDynamicViewsConfigurationObject]];
 
     // Add PaymentResult configuration to advanced config.
-    [advancedConfig setPaymentResultConfiguration: [self getPaymentResultConfiguration]];
+    // [advancedConfig setPaymentResultConfiguration: [self getPaymentResultConfiguration]];
 
     // Disable bank deals
     //[advancedConfig setBankDealsEnabled:NO];

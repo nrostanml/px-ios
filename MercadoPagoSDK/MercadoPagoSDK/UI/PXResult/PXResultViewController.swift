@@ -60,6 +60,8 @@ class PXResultViewController: PXComponentContainerViewController {
     }
 
     func renderViews() {
+        let boxWidthPercent: CGFloat = 90
+        let initialViewOffset: CGFloat = 16
 
         self.contentView.prepareForRender()
 
@@ -74,11 +76,14 @@ class PXResultViewController: PXComponentContainerViewController {
             PXLayout.matchWidth(ofView: headerView).isActive = true
         }
 
+        addCrossSellingViews()
+
         //Add Receipt
         self.receiptView = self.buildReceiptView()
-        if let receiptView = self.receiptView {
+        if let receiptView = self.receiptView, false {
             contentView.addSubviewToBottom(receiptView)
-            PXLayout.matchWidth(ofView: receiptView).isActive = true
+            PXLayout.matchWidth(ofView: receiptView, withPercentage: boxWidthPercent).isActive = true
+            PXLayout.centerHorizontally(view: receiptView).isActive = true
             self.view.layoutIfNeeded()
             PXLayout.setHeight(owner: receiptView, height: receiptView.frame.height).isActive = true
         }
@@ -87,8 +92,19 @@ class PXResultViewController: PXComponentContainerViewController {
         self.bodyContentView = buildBodyContentView()
         if let bodyContentView = self.bodyContentView {
             contentView.addSubviewToBottom(bodyContentView)
-            PXLayout.matchWidth(ofView: bodyContentView).isActive = true
+            PXLayout.matchWidth(ofView: bodyContentView, withPercentage: boxWidthPercent).isActive = true
             PXLayout.centerHorizontally(view: bodyContentView).isActive = true
+            // for tView in bodyContentView.subviews {
+                // tView.applyBoxStyle()
+            // }
+        } else {
+            let bodySpacer = UIView()
+            bodySpacer.translatesAutoresizingMaskIntoConstraints = false
+            bodySpacer.backgroundColor = .red
+            contentView.addSubviewToBottom(bodySpacer)
+            PXLayout.matchWidth(ofView: bodySpacer).isActive = true
+            PXLayout.centerHorizontally(view: bodySpacer).isActive = true
+            self.bodyContentView = bodySpacer
         }
 
         //Add Footer
@@ -105,6 +121,7 @@ class PXResultViewController: PXComponentContainerViewController {
 
         PXLayout.pinLastSubviewToBottom(view: contentView)?.isActive = true
         super.refreshContentViewSize()
+
         if isEmptySpaceOnScreen() {
             if shouldExpandHeader() {
                 expandHeader()
@@ -194,7 +211,6 @@ extension PXResultViewController {
 
         if let topCustomView = buildTopCustomView() {
             self.topCustomView = topCustomView
-            topCustomView.clipsToBounds = true
             view.addSubviewToBottom(topCustomView)
             PXLayout.matchWidth(ofView: topCustomView).isActive = true
             PXLayout.centerHorizontally(view: topCustomView).isActive = true
@@ -225,6 +241,7 @@ extension PXResultViewController {
         if view.getContentView().subviews.isEmpty {
             return nil
         }
+
         return view
     }
 
@@ -255,5 +272,41 @@ extension PXResultViewController {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }
+}
+
+extension PXResultViewController {
+    private func addCrossSellingViews() {
+        let boxWidthPercent: CGFloat = 90
+        let boxDistance: CGFloat = 16
+        let boxHeight: CGFloat = 90
+
+        let view1 = UIView()
+        view1.translatesAutoresizingMaskIntoConstraints = false
+        view1.applyBoxStyle()
+        view1.backgroundColor = .white
+        contentView.addSubviewToBottom(view1, withMargin: boxDistance)
+        PXLayout.matchWidth(ofView: view1, withPercentage: boxWidthPercent).isActive = true
+        PXLayout.centerHorizontally(view: view1).isActive = true
+        self.view.layoutIfNeeded()
+        PXLayout.setHeight(owner: view1, height: boxHeight).isActive = true
+
+        let view2 = UIView()
+        view2.translatesAutoresizingMaskIntoConstraints = false
+        view2.applyBoxStyle()
+        view2.backgroundColor = .white
+        contentView.addSubviewToBottom(view2, withMargin: boxDistance)
+        PXLayout.matchWidth(ofView: view2, withPercentage: boxWidthPercent).isActive = true
+        PXLayout.centerHorizontally(view: view2).isActive = true
+        self.view.layoutIfNeeded()
+        PXLayout.setHeight(owner: view2, height: boxHeight).isActive = true
+
+        let spacer = UIView()
+        spacer.translatesAutoresizingMaskIntoConstraints = false
+        spacer.backgroundColor = .white
+        contentView.addSubviewToBottom(spacer, withMargin: boxDistance)
+        PXLayout.matchWidth(ofView: spacer).isActive = true
+        PXLayout.centerHorizontally(view: spacer).isActive = true
+        PXLayout.setHeight(owner: spacer, height: 0).isActive = true
     }
 }
