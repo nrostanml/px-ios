@@ -9,6 +9,7 @@ import Foundation
 import LocalAuthentication
 
 struct MPSecurityManager {
+    private let localAuthenticationContext = LAContext()
     private let reasonString: String
     private var needUserValidation: Bool = true
 
@@ -18,13 +19,13 @@ struct MPSecurityManager {
 }
 
 extension MPSecurityManager {
-    func authorize(onSuccess: @escaping() -> Void, onFailure: @escaping(String) -> Void) {
+    func authorize(onSuccess: @escaping() -> Void, onFailure: @escaping ((String) -> Void)) {
         if !shouldValidateUser() {
             onSuccess()
             return
         }
         // let localizedFallbackTitle = "Test Juan"
-        let localAuthenticationContext = LAContext()
+        // let localAuthenticationContext = LAContext()
         // localAuthenticationContext.localizedFallbackTitle = localizedFallbackTitle
         var authError: NSError?
 
@@ -50,6 +51,10 @@ extension MPSecurityManager {
             // TouchID/FaceID is not available or not enrolled
             onFailure(self.getErrorDescription(errorCode: error._code))
         }
+    }
+
+    private func invalidateSession() {
+        localAuthenticationContext.invalidate()
     }
 }
 

@@ -401,14 +401,11 @@ extension PXReviewViewController {
 extension PXReviewViewController: PXTermsAndConditionViewDelegate {
 
     private func confirmPayment() {
-
         securityManager.authorize(onSuccess: { [weak self] in
             self?.doPayment()
         }) { (errorDescription) in
-            
-            // print(errorDescription)
+            print(errorDescription)
         }
-
     }
 
     @objc func doPayment() {
