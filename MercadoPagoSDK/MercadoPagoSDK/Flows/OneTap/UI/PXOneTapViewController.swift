@@ -211,8 +211,6 @@ extension PXOneTapViewController {
         loadingButtonComponent?.animationDelegate = self
         loadingButtonComponent?.layer.cornerRadius = 4
         loadingButtonComponent?.add(for: .touchUpInside, {
-            self.subscribeLoadingButtonToNotifications()
-            self.loadingButtonComponent?.startLoading(timeOut: self.timeOutPayButton)
             self.confirmPayment()
         })
         loadingButtonComponent?.setTitle("Pagar".localized, for: .normal)
@@ -257,6 +255,9 @@ extension PXOneTapViewController {
     }
 
     private func confirmPayment() {
+        self.subscribeLoadingButtonToNotifications()
+        self.loadingButtonComponent?.startLoading(timeOut: self.timeOutPayButton)
+
         scrollView.isScrollEnabled = false
         view.isUserInteractionEnabled = false
         if let selectedCardItem = selectedCard {

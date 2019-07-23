@@ -87,7 +87,7 @@
 
     // AdvancedConfig
     PXAdvancedConfiguration* advancedConfig = [[PXAdvancedConfiguration alloc] init];
-    [advancedConfig setExpressEnabled:NO];
+    [advancedConfig setExpressEnabled:YES];
 //    [advancedConfig setProductIdWithId:@"bh31umv10flg01nmhg60"];
 
     PXDiscountParamsConfiguration* disca = [[PXDiscountParamsConfiguration alloc] initWithLabels:[NSArray arrayWithObjects: @"1", @"2", nil] productId:@"bh31umv10flg01nmhg60"];

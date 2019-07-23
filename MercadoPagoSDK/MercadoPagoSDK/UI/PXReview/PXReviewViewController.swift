@@ -31,6 +31,8 @@ class PXReviewViewController: PXComponentContainerViewController {
     private let SHADOW_DELTA: CGFloat = 1
     private var DID_ENTER_DYNAMIC_VIEW_CONTROLLER_SHOWED: Bool = false
 
+    private let securityManager: MPSecurityManager = MPSecurityManager(flowUsageDescription: "Realizar pago seguro")
+
     internal var changePaymentMethodCallback: (() -> Void)?
 
     // MARK: Lifecycle - Publics
@@ -332,10 +334,6 @@ extension PXReviewViewController {
 
     private func getFloatingButtonView() -> PXContainedActionButtonView {
         let component = PXContainedActionButtonComponent(props: PXContainedActionButtonProps(title: "Pagar".localized, action: {
-            if self.shouldAnimatePayButton {
-                self.subscribeLoadingButtonToNotifications(loadingButton: self.loadingFloatingButtonComponent)
-                self.loadingFloatingButtonComponent?.startLoading(timeOut: self.timeOutPayButton)
-            }
             self.confirmPayment()
         }, animationDelegate: self, termsInfo: self.viewModel.creditsTermsAndConditions()), termsDelegate: self)
         let containedButtonView = PXContainedActionButtonRenderer(termsDelegate: self).render(component)
@@ -347,10 +345,6 @@ extension PXReviewViewController {
 
     private func getFooterView() -> UIView {
         let payAction = PXAction(label: "Pagar".localized) {
-            if self.shouldAnimatePayButton {
-                self.subscribeLoadingButtonToNotifications(loadingButton: self.loadingButtonComponent)
-                self.loadingButtonComponent?.startLoading(timeOut: self.timeOutPayButton)
-            }
             self.confirmPayment()
         }
         let footerProps = PXFooterProps(buttonAction: payAction, animationDelegate: self, pinLastSubviewToBottom: false, termsInfo: self.viewModel.creditsTermsAndConditions())
@@ -407,6 +401,21 @@ extension PXReviewViewController {
 extension PXReviewViewController: PXTermsAndConditionViewDelegate {
 
     private func confirmPayment() {
+
+        securityManager.authorize(onSuccess: { [weak self] in
+            self?.doPayment()
+        }) { (errorDescription) in
+            
+            // print(errorDescription)
+        }
+
+    }
+
+    @objc func doPayment() {
+        if self.shouldAnimatePayButton {
+            self.subscribeLoadingButtonToNotifications(loadingButton: self.loadingButtonComponent)
+            self.loadingButtonComponent?.startLoading(timeOut: self.timeOutPayButton)
+        }
         scrollView.isScrollEnabled = false
         view.isUserInteractionEnabled = false
         trackEvent(path: TrackingPaths.Events.ReviewConfirm.getConfirmPath(), properties: viewModel.getConfirmEventProperties())
