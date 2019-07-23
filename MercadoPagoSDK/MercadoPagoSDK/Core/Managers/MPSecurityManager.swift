@@ -11,26 +11,18 @@ import LocalAuthentication
 struct MPSecurityManager {
     private let localAuthenticationContext = LAContext()
     private let reasonString: String
-    private var needUserValidation: Bool = true
+    private let enrollmentService: MPSecurityManagerEnrollmentService
 
     init(flowUsageDescription: String) {
-        reasonString = flowUsageDescription
+        self.reasonString = flowUsageDescription
+        self.enrollmentService = MPSecurityManagerEnrollmentService(withAuthenticationContext: localAuthenticationContext)
     }
 }
 
 extension MPSecurityManager {
     func authorize(onSuccess: @escaping() -> Void, onFailure: @escaping ((String) -> Void)) {
-        if !shouldValidateUser() {
-            onSuccess()
-            return
-        }
-        // let localizedFallbackTitle = "Test Juan"
-        // let localAuthenticationContext = LAContext()
-        // localAuthenticationContext.localizedFallbackTitle = localizedFallbackTitle
-        var authError: NSError?
-
-        if localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-            localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString) { success, evaluateError in
+        if enrollmentService.needUserValidation() {
+            localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reasonString) { success, evaluateError in
                 DispatchQueue.main.async {
                     if success {
                         // Authenticate successfully.
@@ -45,23 +37,8 @@ extension MPSecurityManager {
                 }
             }
         } else {
-            guard let error = authError else {
-                return
-            }
-            // TouchID/FaceID is not available or not enrolled
-            onFailure(self.getErrorDescription(errorCode: error._code))
+            onSuccess()
         }
-    }
-
-    private func invalidateSession() {
-        localAuthenticationContext.invalidate()
-    }
-}
-
-// MARK: Validation for user.
-extension MPSecurityManager {
-    func shouldValidateUser() -> Bool {
-        return needUserValidation
     }
 }
 

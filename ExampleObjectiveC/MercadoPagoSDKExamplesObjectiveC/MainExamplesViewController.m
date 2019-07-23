@@ -27,8 +27,6 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.opaque = YES;
 
-
-
     self.pref = nil;
 
     ///  PASO 1: SETEAR PREFERENCIAS

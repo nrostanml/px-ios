@@ -255,6 +255,17 @@ extension PXOneTapViewController {
     }
 
     private func confirmPayment() {
+
+        let securitymanager = MPSecurityManager(flowUsageDescription: "Para realizar un par seguro")
+
+        securitymanager.authorize(onSuccess: {
+            self.doPayment()
+        }) { _ in
+           // print(errorString)
+        }
+    }
+
+    private func doPayment() {
         self.subscribeLoadingButtonToNotifications()
         self.loadingButtonComponent?.startLoading(timeOut: self.timeOutPayButton)
 
