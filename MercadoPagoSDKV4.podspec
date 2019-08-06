@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license          = { :type => "MIT", :file => "LICENSE" }
   s.author           = "Mercado Pago"
   s.source           = { :git => 'git@github.com:mercadopago/px-ios.git', :tag => s.version.to_s }
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   s.platform     = :ios, '10.0'
   s.requires_arc = true
   s.default_subspec = 'Default'

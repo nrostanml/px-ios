@@ -98,7 +98,7 @@ open class PXPaymentProcessorNavigationHandler: NSObject {
 
         flow?.executeNextStep()
 
-        if let indexOfLastViewController = self.flow?.pxNavigationHandler.navigationController.viewControllers.index(of: currentViewController) {
+        if let indexOfLastViewController = self.flow?.pxNavigationHandler.navigationController.viewControllers.firstIndex(of: currentViewController) {
             self.flow?.pxNavigationHandler.navigationController.viewControllers.remove(at: indexOfLastViewController)
         }
     }

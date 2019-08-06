@@ -149,8 +149,8 @@ internal class PXNavigationHandler: NSObject {
     func cleanCompletedCheckoutsFromNavigationStack() {
         let  pxResultViewControllers = self.navigationController.viewControllers.filter { $0.isKind(of: PXResultViewController.self) }
         if let lastResultViewController = pxResultViewControllers.last {
-            let index = self.navigationController.viewControllers.index(of: lastResultViewController)
-            var  validViewControllers = self.navigationController.viewControllers.filter { (!$0.isKind(of: MercadoPagoUIViewController.self)) || self.navigationController.viewControllers.index(of: $0)! > index! || $0 == self.navigationController.viewControllers.last }
+            let index = self.navigationController.viewControllers.firstIndex(of: lastResultViewController)
+            var  validViewControllers = self.navigationController.viewControllers.filter { (!$0.isKind(of: MercadoPagoUIViewController.self)) || self.navigationController.viewControllers.firstIndex(of: $0)! > index! || $0 == self.navigationController.viewControllers.last }
 
             // Delete dynamic views intances
 

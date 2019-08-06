@@ -36,7 +36,7 @@ open class PXPluginNavigationHandler: NSObject {
 
         checkout?.executeNextStep()
 
-        if let indexOfLastViewController = self.checkout?.viewModel.pxNavigationHandler.navigationController.viewControllers.index(of: currentViewController) {
+        if let indexOfLastViewController = self.checkout?.viewModel.pxNavigationHandler.navigationController.viewControllers.firstIndex(of: currentViewController) {
             self.checkout?.viewModel.pxNavigationHandler.navigationController.viewControllers.remove(at: indexOfLastViewController)
         }
     }
