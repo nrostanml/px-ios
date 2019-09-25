@@ -45,12 +45,11 @@ final internal class OneTapFlowModel: PXFlowModel {
         }
     }
 
-    let escManager: MercadoPagoESC?
     let advancedConfiguration: PXAdvancedConfiguration
     let mercadoPagoServicesAdapter: MercadoPagoServicesAdapter
     let paymentConfigurationService: PXPaymentConfigurationServices
 
-    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices, disabledOption: PXDisabledOption?, escManager: MercadoPagoESC?) {
+    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices, disabledOption: PXDisabledOption?) {
         self.paymentData = paymentData.copy() as? PXPaymentData ?? paymentData
         self.checkoutPreference = checkoutPreference
         self.search = search
@@ -58,7 +57,6 @@ final internal class OneTapFlowModel: PXFlowModel {
         self.advancedConfiguration = advancedConfiguration
         self.chargeRules = chargeRules
         self.mercadoPagoServicesAdapter = mercadoPagoServicesAdapter
-        self.escManager = escManager
         self.paymentConfigurationService = paymentConfigurationService
         self.disabledOption = disabledOption
 
@@ -225,9 +223,15 @@ internal extension OneTapFlowModel {
 
     func hasSavedESC() -> Bool {
         if let card = paymentOptionSelected as? PXCardInformation {
-            return escManager?.getESC(cardId: card.getCardId(), firstSixDigits: card.getFirstSixDigits(), lastFourDigits: card.getCardLastForDigits()) == nil ? false : true
+            let escModule = PXConfiguratorManager.escProtocol
+            return escModule.getESC(config: PXConfiguratorManager.escConfig, cardId: card.getCardId(), firstSixDigits: card.getFirstSixDigits(), lastFourDigits: card.getCardLastForDigits()) == nil ? false : true
         }
         return false
+    }
+    
+    func deleteESC() {
+        let escModule = PXConfiguratorManager.escProtocol
+        escModule.deleteESC(config: PXConfiguratorManager.escConfig, cardId: paymentData.getToken()?.cardId ?? "")
     }
 
     func needToShowLoading() -> Bool {

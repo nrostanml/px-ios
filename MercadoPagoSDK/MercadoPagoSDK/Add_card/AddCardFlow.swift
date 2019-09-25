@@ -16,7 +16,7 @@ import UIKit
 @objcMembers
 public class AddCardFlow: NSObject, PXFlow {
 
-    public var delegate: AddCardFlowProtocol?
+    public weak var delegate: AddCardFlowProtocol?
 
     private var productId: String?
     private let accessToken: String
@@ -25,7 +25,6 @@ public class AddCardFlow: NSObject, PXFlow {
 
     // Change in Q2 when esc info comes from backend
     private let escEnabled: Bool = true
-    private let escManager: PXESCManager
 
     //add card flow should have 'aggregator' processing mode by default
     private lazy var mercadoPagoServicesAdapter = MercadoPagoServicesAdapter(publicKey: "APP_USR-5bd14fdd-3807-446f-babd-095788d5ed4d", privateKey: self.accessToken)
@@ -39,11 +38,11 @@ public class AddCardFlow: NSObject, PXFlow {
         self.accessToken = accessToken
         self.navigationHandler = PXNavigationHandler(navigationController: navigationController)
         MPXTracker.sharedInstance.startNewSession()
-        escManager = PXESCManager(enabled: escEnabled, sessionId: MPXTracker.sharedInstance.getSessionID(), flow: "/card_association")
         super.init()
         Localizator.sharedInstance.setLanguage(string: locale)
         ThemeManager.shared.saveNavBarStyleFor(navigationController: navigationController)
         PXNotificationManager.SuscribeTo.attemptToClose(self, selector: #selector(goBack))
+        configureESCModule()
     }
 
     public func setSiteId(_ siteId: String) {
@@ -51,8 +50,8 @@ public class AddCardFlow: NSObject, PXFlow {
     }
 
     /**
-            Set product id
-        */
+     Set product id
+     */
     open func setProductId(_ productId: String) {
         self.productId = productId
     }
@@ -181,7 +180,8 @@ public class AddCardFlow: NSObject, PXFlow {
         self.mercadoPagoServicesAdapter.createToken(cardToken: cardToken, callback: { [weak self] (token) in
             self?.model.tokenizedCard = token
             if let esc = token.esc {
-                self?.escManager.saveESC(firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits, esc: esc)
+                let escModule = PXConfiguratorManager.escProtocol
+                escModule.saveESC(config: PXConfiguratorManager.escConfig, firstSixDigits: token.firstSixDigits, lastFourDigits: token.lastFourDigits, esc: esc)
             }
             self?.executeNextStep()
             }, failure: {[weak self] (error) in
@@ -268,6 +268,12 @@ public class AddCardFlow: NSObject, PXFlow {
         PXNotificationManager.UnsuscribeTo.attemptToClose(self)
         self.navigationHandler.popViewController(animated: true)
         ThemeManager.shared.applyAppNavBarStyle(navigationController: self.navigationHandler.navigationController)
+    }
+
+    func configureESCModule() {
+        let session = MPXTracker.sharedInstance.getSessionID()
+        let flow = "/card_association"
+        PXConfiguratorManager.escConfig = PXESCConfig.createConfig(enabled: escEnabled, session: session, flow: flow)
     }
 
 }
