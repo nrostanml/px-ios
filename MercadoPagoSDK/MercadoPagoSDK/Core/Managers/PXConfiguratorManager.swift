@@ -16,7 +16,7 @@ open class PXConfiguratorManager: NSObject {
     internal static func hasSecurityValidation() -> Bool {
         return biometricProtocol.isValidationRequired(config: biometricConfig)
     }
-    
+
     internal static var escProtocol: PXESCProtocol = PXESCDefault()
     internal static var escConfig: PXESCConfig = PXESCConfig.createConfig()
 
