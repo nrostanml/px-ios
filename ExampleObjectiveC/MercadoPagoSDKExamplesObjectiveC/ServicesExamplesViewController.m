@@ -7,7 +7,6 @@
 //
 
 #import "ServicesExamplesViewController.h"
-#import "SavedCardsTableViewController.h"
 
 @interface ServicesExamplesViewController ()
 
@@ -27,11 +26,6 @@
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
-    if ([segue.identifier  isEqual: @"allowInstallmentsSegue"]) {
-        SavedCardsTableViewController *savedCardsVC = [segue destinationViewController];
-        savedCardsVC.allowInstallmentsSeletion = YES;
-    }
     
 }
 
