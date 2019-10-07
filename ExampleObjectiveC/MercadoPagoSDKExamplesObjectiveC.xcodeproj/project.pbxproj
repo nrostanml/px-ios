@@ -24,7 +24,6 @@
 		76EF7EDB1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF7EDA1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.m */; };
 		76EF7F221D255C7E0087C785 /* ExampleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF7F211D255C7E0087C785 /* ExampleUtils.m */; };
 		76EF7F5A1D26FDB80087C785 /* MainExamplesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF7F591D26FDB80087C785 /* MainExamplesViewController.m */; };
-		76EF7F601D2706720087C785 /* ServicesExamplesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF7F5F1D2706720087C785 /* ServicesExamplesViewController.m */; };
 		81488CC11FE93E0C003C35B1 /* TestComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81488CC01FE93E0C003C35B1 /* TestComponent.swift */; };
 		81488CC21FE94196003C35B1 /* TestComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81488CC01FE93E0C003C35B1 /* TestComponent.swift */; };
 		FC5B5AA6217E0F9F000B83E6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5B5AA5217E0F9F000B83E6 /* Extensions.swift */; };
@@ -82,8 +81,6 @@
 		76EF7F211D255C7E0087C785 /* ExampleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleUtils.m; sourceTree = "<group>"; };
 		76EF7F581D26FDB80087C785 /* MainExamplesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainExamplesViewController.h; sourceTree = "<group>"; };
 		76EF7F591D26FDB80087C785 /* MainExamplesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainExamplesViewController.m; sourceTree = "<group>"; };
-		76EF7F5E1D2706720087C785 /* ServicesExamplesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicesExamplesViewController.h; sourceTree = "<group>"; };
-		76EF7F5F1D2706720087C785 /* ServicesExamplesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicesExamplesViewController.m; sourceTree = "<group>"; };
 		81488CC01FE93E0C003C35B1 /* TestComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestComponent.swift; sourceTree = "<group>"; };
 		81760F3A1FD5981B00237A81 /* MercadoPagoPXTracking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MercadoPagoPXTracking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A75D1BC21F79B338515E84AF /* Pods-MercadoPagoSDKExamplesObjectiveC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MercadoPagoSDKExamplesObjectiveC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MercadoPagoSDKExamplesObjectiveC/Pods-MercadoPagoSDKExamplesObjectiveC.debug.xcconfig"; sourceTree = "<group>"; };
@@ -224,8 +221,6 @@
 			children = (
 				76EF7F581D26FDB80087C785 /* MainExamplesViewController.h */,
 				76EF7F591D26FDB80087C785 /* MainExamplesViewController.m */,
-				76EF7F5E1D2706720087C785 /* ServicesExamplesViewController.h */,
-				76EF7F5F1D2706720087C785 /* ServicesExamplesViewController.m */,
 				76BAC63F1E4B2ED80081F675 /* MercadoPagoSDKExamplesObjectiveC-Bridging-Header.h */,
 				81488CC01FE93E0C003C35B1 /* TestComponent.swift */,
 				FC5B5AA5217E0F9F000B83E6 /* Extensions.swift */,
@@ -433,7 +428,6 @@
 				2385C5DA20125871002C147D /* MeliTheme.swift in Sources */,
 				FC5B5AA6217E0F9F000B83E6 /* Extensions.swift in Sources */,
 				23CF4ECE20994D1A00EC9399 /* MPTheme.swift in Sources */,
-				76EF7F601D2706720087C785 /* ServicesExamplesViewController.m in Sources */,
 				4B1A74F0209204B900E39587 /* MLMyMPPXTrackListener.m in Sources */,
 				76EF7EC21D2559140087C785 /* main.m in Sources */,
 				23346C341FE83734005FD8C9 /* PaymentPluginViewController.m in Sources */,
