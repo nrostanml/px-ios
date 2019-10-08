@@ -25,6 +25,8 @@ ExampleObjectiveC/Pods/
 ExampleObjectiveC/Podfile.lock
 ExampleSwift/Pods/
 ExampleSwift/Podfile.lock
+PXTestProject/Podfile.lock
+PXTestProject/Pods/
 
 # CocoaPods
 #
