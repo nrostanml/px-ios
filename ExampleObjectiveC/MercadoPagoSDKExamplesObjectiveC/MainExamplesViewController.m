@@ -24,6 +24,10 @@
 
 - (IBAction)checkoutFlow:(id)sender {
 
+
+
+
+
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.opaque = YES;
 
@@ -143,6 +147,51 @@
     [mpCheckout startWithLazyInitProtocol:self];
 }
 
+-(void)runMercadoPagoCheckout {
+    // 1) Create Builder with your publicKey and preferenceId.
+    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"APP_USR-c4f42ada-0fea-42a1-9b13-31e67096dcd3" preferenceId:@"272097319-a9040a88-5971-4fcd-92d5-6eeb4612abce"];
+
+    // 2) Create Checkout reference
+    MercadoPagoCheckout *mpCheckout = [[MercadoPagoCheckout alloc] initWithBuilder:self.checkoutBuilder];
+
+
+    // 3) Start with your navigation controller.
+    [mpCheckout startWithNavigationController:self.navigationController lifeCycleProtocol:NULL];
+}
+
+-(void)runMercadoPagoCheckoutWithLifecycle {
+    // 1) Create Builder with your publicKey and preferenceId.
+    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"APP_USR-c4f42ada-0fea-42a1-9b13-31e67096dcd3" preferenceId:@"272097319-a9040a88-5971-4fcd-92d5-6eeb4612abce"];
+
+    // 2) Create Checkout reference
+    MercadoPagoCheckout *mpCheckout = [[MercadoPagoCheckout alloc] initWithBuilder:self.checkoutBuilder];
+
+
+    // 3) Start with your navigation controller.
+    [mpCheckout startWithNavigationController:self.navigationController lifeCycleProtocol:self];
+}
+
+// MARK: Optional Lifecycle protocol implementation example.
+-(void (^ _Nullable)(void))cancelCheckout {
+    return ^ {
+        [self.navigationController popViewControllerAnimated:YES];
+    };
+}
+
+- (void (^)(id<PXResult> _Nullable))finishCheckout {
+    return nil;
+}
+
+-(void (^)(void))changePaymentMethodTapped {
+    return ^ {
+        NSLog(@"px - changePaymentMethodTapped");
+    };
+}
+
+
+
+
+
 // ReviewConfirm
 -(PXReviewConfirmConfiguration *)getReviewScreenConfiguration {
     PXReviewConfirmConfiguration *config = [TestComponent getReviewConfirmConfiguration];
@@ -224,20 +273,6 @@
 
 -(void)failureWithCheckout:(MercadoPagoCheckout * _Nonnull)checkout {
     NSLog(@"PXLog - LazyInit - failureWithCheckout");
-}
-
--(void (^ _Nullable)(void))cancelCheckout {
-    return ^ {
-        [self.navigationController popViewControllerAnimated:YES];
-    };
-}
-
-- (void (^)(id<PXResult> _Nullable))finishCheckout {
-    return nil;
-}
-
--(void (^)(void))changePaymentMethodTapped {
-    return nil;
 }
 
 - (void)trackEventWithScreenName:(NSString * _Nullable)screenName action:(NSString * _Null_unspecified)action result:(NSString * _Nullable)result extraParams:(NSDictionary<NSString *,id> * _Nullable)extraParams {
