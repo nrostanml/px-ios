@@ -23,16 +23,63 @@
 @implementation MainExamplesViewController
 
 - (IBAction)checkoutFlow:(id)sender {
-
-
-
-
+    [self runMercadoPagoCheckout];
+//    [self runMercadoPagoCheckoutWithLifecycle];
 
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.opaque = YES;
 
+}
+
+-(void)runMercadoPagoCheckout {
+    // 1) Create Builder with your publicKey and preferenceId.
+    self.checkoutBuilder = [[[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd" preferenceId:@"243966003-0812580b-6082-4104-9bce-1a4c48a5bc44"] setLanguage:@"es"];
+
+    // 2) Create Checkout reference
+    MercadoPagoCheckout *mpCheckout = [[MercadoPagoCheckout alloc] initWithBuilder:self.checkoutBuilder];
 
 
+    // 3) Start with your navigation controller.
+    [mpCheckout startWithNavigationController:self.navigationController lifeCycleProtocol:NULL];
+}
+
+-(void)runMercadoPagoCheckoutWithLifecycle {
+    // 1) Create Builder with your publicKey and preferenceId.
+    self.checkoutBuilder = [[[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd" preferenceId:@"243966003-0812580b-6082-4104-9bce-1a4c48a5bc44"] setLanguage:@"es"];
+
+    // 2) Create Checkout reference
+    MercadoPagoCheckout *mpCheckout = [[MercadoPagoCheckout alloc] initWithBuilder:self.checkoutBuilder];
+
+
+    // 3) Start with your navigation controller.
+    [mpCheckout startWithNavigationController:self.navigationController lifeCycleProtocol:self];
+}
+
+// MARK: Optional Lifecycle protocol implementation example.
+-(void (^ _Nullable)(void))cancelCheckout {
+    return ^ {
+        [self.navigationController popViewControllerAnimated:YES];
+    };
+}
+
+- (void (^)(id<PXResult> _Nullable))finishCheckout {
+    return nil;
+}
+
+-(void (^)(void))changePaymentMethodTapped {
+    return ^ {
+        NSLog(@"px - changePaymentMethodTapped");
+    };
+}
+
+
+
+
+
+
+
+//OLD EXAMPLE PROJECT
+-(void)oldImplementation {
     self.pref = nil;
 
     ///  PASO 1: SETEAR PREFERENCIAS
@@ -146,51 +193,6 @@
     //[mpCheckout startWithLazyInitProtocol:self];
     [mpCheckout startWithLazyInitProtocol:self];
 }
-
--(void)runMercadoPagoCheckout {
-    // 1) Create Builder with your publicKey and preferenceId.
-    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"APP_USR-c4f42ada-0fea-42a1-9b13-31e67096dcd3" preferenceId:@"272097319-a9040a88-5971-4fcd-92d5-6eeb4612abce"];
-
-    // 2) Create Checkout reference
-    MercadoPagoCheckout *mpCheckout = [[MercadoPagoCheckout alloc] initWithBuilder:self.checkoutBuilder];
-
-
-    // 3) Start with your navigation controller.
-    [mpCheckout startWithNavigationController:self.navigationController lifeCycleProtocol:NULL];
-}
-
--(void)runMercadoPagoCheckoutWithLifecycle {
-    // 1) Create Builder with your publicKey and preferenceId.
-    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"APP_USR-c4f42ada-0fea-42a1-9b13-31e67096dcd3" preferenceId:@"272097319-a9040a88-5971-4fcd-92d5-6eeb4612abce"];
-
-    // 2) Create Checkout reference
-    MercadoPagoCheckout *mpCheckout = [[MercadoPagoCheckout alloc] initWithBuilder:self.checkoutBuilder];
-
-
-    // 3) Start with your navigation controller.
-    [mpCheckout startWithNavigationController:self.navigationController lifeCycleProtocol:self];
-}
-
-// MARK: Optional Lifecycle protocol implementation example.
--(void (^ _Nullable)(void))cancelCheckout {
-    return ^ {
-        [self.navigationController popViewControllerAnimated:YES];
-    };
-}
-
-- (void (^)(id<PXResult> _Nullable))finishCheckout {
-    return nil;
-}
-
--(void (^)(void))changePaymentMethodTapped {
-    return ^ {
-        NSLog(@"px - changePaymentMethodTapped");
-    };
-}
-
-
-
-
 
 // ReviewConfirm
 -(PXReviewConfirmConfiguration *)getReviewScreenConfiguration {

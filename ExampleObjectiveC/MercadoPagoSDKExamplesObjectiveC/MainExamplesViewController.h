@@ -21,6 +21,4 @@
 @property PXCheckoutPreference *pref;
 @property PXPaymentConfiguration *paymentConfig;
 
-+(void)setPaymentDataCallback;
-
 @end
