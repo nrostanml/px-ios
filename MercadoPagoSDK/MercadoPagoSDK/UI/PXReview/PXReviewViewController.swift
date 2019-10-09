@@ -281,8 +281,7 @@ extension PXReviewViewController {
             if let reviewViewModel = self?.viewModel {
                 self?.trackEvent(path: TrackingPaths.Events.ReviewConfirm.getChangePaymentMethodPath())
                 if let callBackAction = self?.changePaymentMethodCallback {
-                    PXNotificationManager.UnsuscribeTo.attemptToClose(MercadoPagoCheckout.currentCheckout)
-                    PXNotificationManager.UnsuscribeTo.attemptToClose(MercadoPagoCheckout.currentCheckout)
+                    PXNotificationManager.UnsuscribeTo.attemptToClose(MercadoPagoCheckout.currentCheckout as Any)
                     callBackAction()
                 } else {
                     self?.callbackPaymentData(reviewViewModel.getClearPaymentData())
@@ -399,16 +398,19 @@ extension PXReviewViewController {
 
 // MARK: Actions.
 extension PXReviewViewController: PXTermsAndConditionViewDelegate {
-
     private func confirmPayment(_ targetButton: PXAnimatedButton) {
-        let biometricModule = PXConfiguratorManager.biometricProtocol
-        biometricModule.validate(config: PXConfiguratorManager.biometricConfig, onSuccess: { [weak self] in
-            DispatchQueue.main.async {
-                self?.doPayment(targetButton)
+        if viewModel.shouldValidateWithBiometric() {
+            let biometricModule = PXConfiguratorManager.biometricProtocol
+            biometricModule.validate(config: PXConfiguratorManager.biometricConfig, onSuccess: { [weak self] in
+                DispatchQueue.main.async {
+                    self?.doPayment(targetButton)
+                }
+            }) { [weak self] error in
+                // User abort validation or validation fail.
+                self?.trackEvent(path: TrackingPaths.Events.getErrorPath())
             }
-        }) { [weak self] error in
-            // User abort validation or validation fail.
-            self?.trackEvent(path: TrackingPaths.Events.getErrorPath())
+        } else {
+            self.doPayment(targetButton)
         }
     }
 
