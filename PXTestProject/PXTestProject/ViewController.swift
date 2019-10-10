@@ -15,83 +15,35 @@ import MercadoPagoSDK
 //import MercadoPagoSDK
 //#endif
 
-struct CheckoutConfigs {
-    let publicKey: String
-    let prefId: String
-    let lenguage: String
-    let color: UIColor
-    let paymentProcesorOn: Bool
-    let splitPaymentProcesorOn: Bool
+class CheckoutConfigs {
+    var publicKey: String
+    var prefId: String
+    var lenguage: String
+    var color: UIColor
+    var paymentProcesorOn: Bool
+    var splitPaymentProcesorOn: Bool
+
+    init(publicKey: String, prefId: String, lenguage: String, color: UIColor, paymentProcesorOn: Bool, splitPaymentProcesorOn: Bool) {
+        self.publicKey = publicKey
+        self.prefId = prefId
+        self.lenguage = lenguage
+        self.color = color
+        self.paymentProcesorOn = paymentProcesorOn
+        self.splitPaymentProcesorOn = splitPaymentProcesorOn
+    }
 }
 
-class StringConfigView: UIView, UITextFieldDelegate {
+struct ConfigData {
     let title: String
-    let initialValue: String
-    let callback: (String) -> Void
+    let initialValue: Any
+    let type: ConfigType
+    let callback: (Any) -> Void
+}
 
-    init(title: String, initialValue: String, callback: @escaping (String) -> Void) {
-        self.title = title
-        self.initialValue = initialValue
-        self.callback = callback
-        super.init(frame: .zero)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        render()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    func render() {
-        self.isUserInteractionEnabled = true
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = title
-        addSubview(label)
-
-        NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-        ])
-
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.borderStyle = UITextField.BorderStyle.line
-        textField.placeholder = "Enter text here"
-        textField.text = initialValue
-        textField.borderStyle = UITextField.BorderStyle.roundedRect
-        textField.autocorrectionType = UITextAutocorrectionType.no
-        textField.keyboardType = UIKeyboardType.default
-        textField.returnKeyType = UIReturnKeyType.done
-        textField.clearButtonMode = UITextField.ViewMode.whileEditing;
-        textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
-        textField.delegate = self
-
-        addSubview(textField)
-
-        NSLayoutConstraint.activate([
-            textField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            textField.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 20),
-            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            textField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6)
-        ])
-
-        NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 80)
-        ])
-    }
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return false
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("TextField did end editing method called")
-    }
-
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
+public enum ConfigType {
+    case string
+    case bool
+    case color
 }
 
 class ViewController: UIViewController {
@@ -106,10 +58,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Checkout Config"
-        renderConfigsViews()
+        render()
     }
 
-    private func renderConfigsViews() {
+    private func render() {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
@@ -136,7 +88,6 @@ class ViewController: UIViewController {
             startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30)
         ])
 
-
         //CONTENT VIEW
         let contentView = UIStackView()
         contentView.axis = .vertical
@@ -153,19 +104,50 @@ class ViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
 
-        let publicKeyView = StringConfigView(title: "Public Key", initialValue: configs.publicKey) { (value) in
-            print(value)
-        }
 
-        let prefIdView = StringConfigView(title: "Preference ID", initialValue: configs.prefId) { (value) in
-            print(value)
-        }
+        let configsData = getConfigs()
 
-        let configViews: [UIView] = [publicKeyView, prefIdView]
+        for configData in configsData {
+            var view: UIView?
+            switch configData.type {
+            case .string:
+                view = StringConfigView(title: configData.title, initialValue: configData.initialValue as! String, callback: configData.callback)
+            case .bool:
+                view = BoolConfigView(title: configData.title, initialValue: configData.initialValue as! Bool, callback: configData.callback)
+            case .color:
+                view = nil
+            }
 
-        for view in configViews {
-            contentView.addArrangedSubview(view)
+            if let view = view {
+                view.layer.borderWidth = 1
+                view.layer.borderColor = UIColor.black.withAlphaComponent(0.4).cgColor
+                contentView.addArrangedSubview(view)
+            }
         }
+    }
+
+    func getConfigs() -> [ConfigData] {
+        var configsData = [ConfigData]()
+
+        //Pref Id
+        let prefId = ConfigData(title: "Public Key", initialValue: configs.publicKey, type: .string, callback: { [weak self] (value) in
+            if let stringValue = value as? String {
+                self?.configs.publicKey = stringValue
+                print("PK = ", stringValue)
+            }
+        })
+        configsData.append(prefId)
+
+        //Procesadora
+        let paymentProcessor = ConfigData(title: "Payment Processor", initialValue: configs.paymentProcesorOn, type: .bool, callback: { [weak self] (value) in
+            if let boolValue = value as? Bool {
+                self?.configs.paymentProcesorOn = boolValue
+                print("Payment Processor On = ", boolValue)
+            }
+        })
+        configsData.append(paymentProcessor)
+
+        return configsData
     }
 
     @objc func startButtonTapped() {

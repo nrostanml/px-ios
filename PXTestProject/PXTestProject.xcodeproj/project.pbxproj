@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7AC65EDC1AEE6E070E1DB92E /* Pods_PXTestProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 392A4264AE8847D7F3CA076A /* Pods_PXTestProject.framework */; };
+		FC18659B234FABB300940E44 /* ConfigViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC18659A234FABB300940E44 /* ConfigViews.swift */; };
 		FCF33637234CD4BD00B687BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF33636234CD4BD00B687BD /* AppDelegate.swift */; };
 		FCF33639234CD4BD00B687BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF33638234CD4BD00B687BD /* ViewController.swift */; };
 		FCF3363C234CD4BD00B687BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCF3363A234CD4BD00B687BD /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 		392A4264AE8847D7F3CA076A /* Pods_PXTestProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PXTestProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F5A07524FCCCB174DE621A8 /* Pods-PXTestProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PXTestProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-PXTestProject/Pods-PXTestProject.release.xcconfig"; sourceTree = "<group>"; };
 		516A112AA1A649CBC571CEB5 /* Pods-PXTestProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PXTestProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PXTestProject/Pods-PXTestProject.debug.xcconfig"; sourceTree = "<group>"; };
+		FC18659A234FABB300940E44 /* ConfigViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViews.swift; sourceTree = "<group>"; };
 		FCF33633234CD4BD00B687BD /* PXTestProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PXTestProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCF33636234CD4BD00B687BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FCF33638234CD4BD00B687BD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				FCF33636234CD4BD00B687BD /* AppDelegate.swift */,
+				FC18659A234FABB300940E44 /* ConfigViews.swift */,
 				FCF33638234CD4BD00B687BD /* ViewController.swift */,
 				FCF3363A234CD4BD00B687BD /* Main.storyboard */,
 				FCF3363D234CD4C400B687BD /* Assets.xcassets */,
@@ -238,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC18659B234FABB300940E44 /* ConfigViews.swift in Sources */,
 				FCF33639234CD4BD00B687BD /* ViewController.swift in Sources */,
 				FCF33637234CD4BD00B687BD /* AppDelegate.swift in Sources */,
 			);
