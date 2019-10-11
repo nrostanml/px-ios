@@ -18,18 +18,22 @@ import MercadoPagoSDK
 class CheckoutConfigs {
     var publicKey: String
     var prefId: String
+    var accessToken: String
     var lenguage: String
     var color: UIColor
     var paymentProcesorOn: Bool
     var splitPaymentProcesorOn: Bool
+    var oneTapOn: Bool
 
-    init(publicKey: String, prefId: String, lenguage: String, color: UIColor, paymentProcesorOn: Bool, splitPaymentProcesorOn: Bool) {
+    init(publicKey: String, prefId: String, accessToken: String, lenguage: String, color: UIColor, paymentProcesorOn: Bool, splitPaymentProcesorOn: Bool, oneTapOn: Bool) {
         self.publicKey = publicKey
         self.prefId = prefId
+        self.accessToken = accessToken
         self.lenguage = lenguage
         self.color = color
         self.paymentProcesorOn = paymentProcesorOn
         self.splitPaymentProcesorOn = splitPaymentProcesorOn
+        self.oneTapOn = oneTapOn
     }
 }
 
@@ -43,17 +47,33 @@ struct ConfigData {
 public enum ConfigType {
     case string
     case bool
-    case color
 }
 
 class ViewController: UIViewController {
 
+    var cases: [String : [String : String]] = [
+        "MLA": ["public_key": "TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd",
+                "pred_id": "243966003-0812580b-6082-4104-9bce-1a4c48a5bc44",
+                "access_token": "APP_USR-7092-091314-cc8f836a12b9bf78b16e77e4409ed873-470735636"],
+        "MLB": ["public_key": "TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd",
+                "pred_id": "243966003-0812580b-6082-4104-9bce-1a4c48a5bc44",
+                "access_token": "APP_USR-7092-091314-cc8f836a12b9bf78b16e77e4409ed873-470735636"],
+        "MLU": ["public_key": "TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd",
+                "pred_id": "243966003-0812580b-6082-4104-9bce-1a4c48a5bc44",
+                "access_token": "APP_USR-7092-091314-cc8f836a12b9bf78b16e77e4409ed873-470735636"],
+        "Augusto": ["public_key": "TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd",
+                "pred_id": "243966003-0812580b-6082-4104-9bce-1a4c48a5bc44",
+                "access_token": "APP_USR-7092-091314-cc8f836a12b9bf78b16e77e4409ed873-470735636"]
+    ]
+
     var configs = CheckoutConfigs(publicKey: "TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd",
                                   prefId: "243966003-0812580b-6082-4104-9bce-1a4c48a5bc44",
+                                  accessToken: "APP_USR-7092-091314-cc8f836a12b9bf78b16e77e4409ed873-470735636",
                                   lenguage: "es",
                                   color: .orange,
                                   paymentProcesorOn: false,
-                                  splitPaymentProcesorOn: false)
+                                  splitPaymentProcesorOn: false,
+                                  oneTapOn: true)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,8 +125,17 @@ class ViewController: UIViewController {
         ])
 
 
-        let configsData = getConfigs()
+        //MACROS
+        let casesData = Array(cases.keys)
+        let macrosView = StringConfigView(title: "Macros", initialValue: casesData.first ?? "", pickerMode: true, data: casesData, callback: { [weak self] (value) in
+            print("Selected Data = ", self?.cases[value])
+        })
 
+        macrosView.layer.borderWidth = 2
+        macrosView.layer.borderColor = UIColor.black.withAlphaComponent(0.4).cgColor
+        contentView.addArrangedSubview(macrosView)
+
+        let configsData = getConfigs()
         for configData in configsData {
             var view: UIView?
             switch configData.type {
@@ -114,8 +143,6 @@ class ViewController: UIViewController {
                 view = StringConfigView(title: configData.title, initialValue: configData.initialValue as! String, callback: configData.callback)
             case .bool:
                 view = BoolConfigView(title: configData.title, initialValue: configData.initialValue as! Bool, callback: configData.callback)
-            case .color:
-                view = nil
             }
 
             if let view = view {
@@ -129,14 +156,32 @@ class ViewController: UIViewController {
     func getConfigs() -> [ConfigData] {
         var configsData = [ConfigData]()
 
-        //Pref Id
-        let prefId = ConfigData(title: "Public Key", initialValue: configs.publicKey, type: .string, callback: { [weak self] (value) in
+        //Public Key
+        let publicKey = ConfigData(title: "Public Key", initialValue: configs.publicKey, type: .string, callback: { [weak self] (value) in
             if let stringValue = value as? String {
                 self?.configs.publicKey = stringValue
                 print("PK = ", stringValue)
             }
         })
+        configsData.append(publicKey)
+
+        //Pref Id
+        let prefId = ConfigData(title: "Preference ID", initialValue: configs.prefId, type: .string, callback: { [weak self] (value) in
+            if let stringValue = value as? String {
+                self?.configs.prefId = stringValue
+                print("Pref ID = ", stringValue)
+            }
+        })
         configsData.append(prefId)
+
+        //Access Token
+        let accessToken = ConfigData(title: "Access Token", initialValue: configs.accessToken, type: .string, callback: { [weak self] (value) in
+            if let stringValue = value as? String {
+                self?.configs.accessToken = stringValue
+                print("Access Token = ", stringValue)
+            }
+        })
+        configsData.append(accessToken)
 
         //Procesadora
         let paymentProcessor = ConfigData(title: "Payment Processor", initialValue: configs.paymentProcesorOn, type: .bool, callback: { [weak self] (value) in
@@ -146,6 +191,24 @@ class ViewController: UIViewController {
             }
         })
         configsData.append(paymentProcessor)
+
+        //One Tap
+        let oneTap = ConfigData(title: "One Tap", initialValue: configs.oneTapOn, type: .bool, callback: { [weak self] (value) in
+            if let boolValue = value as? Bool {
+                self?.configs.oneTapOn = boolValue
+                print("One Tap On = ", boolValue)
+            }
+        })
+        configsData.append(oneTap)
+
+        //Color
+        let color = ConfigData(title: "Color", initialValue: configs.color.toHexString(), type: .string, callback: { [weak self] (value) in
+            if let stringValue = value as? String, let color = self?.colorWithHexString(hexString: stringValue) {
+                self?.configs.color = color
+                print("Color = ", stringValue)
+            }
+        })
+        configsData.append(color)
 
         return configsData
     }
@@ -166,6 +229,10 @@ class ViewController: UIViewController {
 
         let trackingConfig = PXTrackingConfiguration(trackListener: self, flowName: "instore", flowDetails: [:], sessionId: "123456")
         builder.setTrackingConfiguration(config: trackingConfig)
+
+        let advancedConfig = PXAdvancedConfiguration()
+        advancedConfig.expressEnabled = configs.oneTapOn
+        builder.setAdvancedConfiguration(config: advancedConfig)
 
         // 2) Create Checkout
         let checkout: MercadoPagoCheckout = MercadoPagoCheckout(builder: builder)
@@ -188,3 +255,53 @@ extension ViewController: PXTrackerListener {
     }
 }
 
+// MARK: Utils
+extension ViewController {
+    func colorWithHexString(hexString: String, alpha:CGFloat = 1.0) -> UIColor {
+
+        // Convert hex string to an integer
+        let hexint = Int(self.intFromHexString(hexStr: hexString))
+        let red = CGFloat((hexint & 0xff0000) >> 16) / 255.0
+        let green = CGFloat((hexint & 0xff00) >> 8) / 255.0
+        let blue = CGFloat((hexint & 0xff) >> 0) / 255.0
+
+        // Create color object, specifying alpha as well
+        let color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        return color
+    }
+
+    func intFromHexString(hexStr: String) -> UInt32 {
+        var hexInt: UInt32 = 0
+        // Create scanner
+        let scanner: Scanner = Scanner(string: hexStr)
+        // Tell scanner to skip the # character
+        scanner.charactersToBeSkipped = CharacterSet(charactersIn: "#")
+        // Scan hex value
+        scanner.scanHexInt32(&hexInt)
+        return hexInt
+    }
+
+//    func hexFromUIColor(color: UIColor) -> String
+//    {
+//        let hexString = String(format: "%02X%02X%02X",
+//                               Int(CGColor.components(color.cgColor)[0] * 255.0),
+//                               Int(CGColorGetComponents(color.CGColor)[1] * 255.0),
+//                               Int(CGColorGetComponents(color.CGColor)[2] * 255.0))
+//        return hexString
+//    }
+}
+
+extension UIColor {
+    func toHexString() -> String {
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+
+        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+
+        return String(format:"#%06x", rgb)
+    }
+}

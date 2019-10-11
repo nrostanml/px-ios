@@ -11,12 +11,21 @@ import UIKit
 class StringConfigView: UIView, UITextFieldDelegate {
     let title: String
     let initialValue: String
+    let pickerMode: Bool
+    let data: [String]
     let callback: (String) -> Void
 
-    init(title: String, initialValue: String, callback: @escaping (String) -> Void) {
+    var pickOption = ["one", "two", "three", "seven", "fifteen"]
+
+    var textField: UITextField
+
+    init(title: String, initialValue: String, pickerMode: Bool = false, data: [String] = [], callback: @escaping (String) -> Void) {
         self.title = title
         self.initialValue = initialValue
         self.callback = callback
+        self.pickerMode = pickerMode
+        self.data = data
+        self.textField = UITextField()
         super.init(frame: .zero)
         self.translatesAutoresizingMaskIntoConstraints = false
         render()
@@ -33,7 +42,6 @@ class StringConfigView: UIView, UITextFieldDelegate {
         label.text = title
         addSubview(label)
 
-        let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = UITextField.BorderStyle.line
         textField.placeholder = "Enter text here"
@@ -46,6 +54,12 @@ class StringConfigView: UIView, UITextFieldDelegate {
         textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
         textField.delegate = self
         addSubview(textField)
+
+        if pickerMode {
+            let pickerView = UIPickerView()
+            pickerView.delegate = self
+            textField.inputView = pickerView
+        }
 
         // Auto layout constraints
         NSLayoutConstraint.activate([
@@ -79,6 +93,24 @@ class StringConfigView: UIView, UITextFieldDelegate {
         if let text = textField.text {
             callback(text)
         }
+    }
+}
+
+extension StringConfigView: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return data.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return data[row]
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        textField.text = data[row]
     }
 }
 
