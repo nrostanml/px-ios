@@ -43,6 +43,9 @@ internal class TextMaskFormater {
             for char: Character in text {
                 if charset.contains(char) {
                     ints.append(char)
+                } else {
+                    // Fix like verified digit RUT CL.
+                    ints.append(char)
                 }
             }
             return ints
