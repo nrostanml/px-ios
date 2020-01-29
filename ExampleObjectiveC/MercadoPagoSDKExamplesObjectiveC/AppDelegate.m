@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "ExampleUtils.h"
 
 #ifdef PX_PRIVATE_POD
     @import MercadoPagoSDKV4;

@@ -1,12 +1,12 @@
 //
-//  MainExamplesViewController.m
-//  MercadoPagoSDKExamplesObjectiveC
+//  ViewController.m
+//  ExampleObjectiveC
 //
-//  Created by Maria cristina rodriguez on 1/7/16.
-//  Copyright © 2016 MercadoPago. All rights reserved.
+//  Created by AUGUSTO COLLERONE ALFONSO on 29/01/2020.
+//  Copyright © 2020 MercadoPago. All rights reserved.
 //
 
-#import "MainExamplesViewController.h"
+#import "ViewController.h"
 
 #ifdef PX_PRIVATE_POD
     @import MercadoPagoSDKV4;
@@ -14,7 +14,7 @@
     @import MercadoPagoSDK;
 #endif
 
-@implementation MainExamplesViewController
+@implementation ViewController
 
 - (void)viewDidLoad {
     // [self runMercadoPagoCheckout];
@@ -63,3 +63,4 @@
 }
 
 @end
+

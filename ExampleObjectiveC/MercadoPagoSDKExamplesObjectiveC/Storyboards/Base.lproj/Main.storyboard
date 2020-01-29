@@ -26,7 +26,6 @@
         <!--Ejemplo-->
         <scene sceneID="unq-Z0-iuh">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ruu-aV-G54" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="Rgx-dD-8Cm" customClass="MainExamplesViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="T2W-KU-Omg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -81,13 +80,14 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Ejemplo" id="c4S-FQ-Fzf"/>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ruu-aV-G54" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="66" y="112"/>
         </scene>
-        <!--Main Examples View Controller-->
+        <!--View Controller-->
         <scene sceneID="pJm-AQ-Dm8">
             <objects>
-                <viewController id="WhE-Ke-YS8" customClass="MainExamplesViewController" sceneMemberID="viewController">
+                <viewController id="WhE-Ke-YS8" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oSX-Fo-Jg8"/>
                         <viewControllerLayoutGuide type="bottom" id="9ol-4O-IJx"/>
