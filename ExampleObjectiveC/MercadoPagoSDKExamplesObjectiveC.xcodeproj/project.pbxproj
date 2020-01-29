@@ -44,7 +44,7 @@
 		388C1284408CC07FA668ED77 /* Pods-MercadoPagoSDKExamplesObjectiveC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MercadoPagoSDKExamplesObjectiveC.release.xcconfig"; path = "Pods/Target Support Files/Pods-MercadoPagoSDKExamplesObjectiveC/Pods-MercadoPagoSDKExamplesObjectiveC.release.xcconfig"; sourceTree = "<group>"; };
 		4B10DBC721398A0200EA2208 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		76BAC63F1E4B2ED80081F675 /* MercadoPagoSDKExamplesObjectiveC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MercadoPagoSDKExamplesObjectiveC-Bridging-Header.h"; sourceTree = "<group>"; };
-		76EF7EBD1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MercadoPagoSDKExamplesObjectiveC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		76EF7EBD1D2559140087C785 /* ExampleObjectiveC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleObjectiveC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76EF7EC11D2559140087C785 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		76EF7EC31D2559140087C785 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		76EF7EC41D2559140087C785 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 		76EF7EBE1D2559140087C785 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				76EF7EBD1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC.app */,
+				76EF7EBD1D2559140087C785 /* ExampleObjectiveC.app */,
 				76EF7ED61D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.xctest */,
 			);
 			name = Products;
@@ -185,7 +185,7 @@
 			);
 			name = MercadoPagoSDKExamplesObjectiveC;
 			productName = MercadoPagoSDKExamplesObjectiveC;
-			productReference = 76EF7EBD1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC.app */;
+			productReference = 76EF7EBD1D2559140087C785 /* ExampleObjectiveC.app */;
 			productType = "com.apple.product-type.application";
 		};
 		76EF7ED51D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests */ = {
@@ -484,7 +484,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MercadoPagoSDKExamplesObjectiveC;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ExampleObjectiveC;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MercadoPagoSDKExamplesObjectiveC/MercadoPagoSDKExamplesObjectiveC-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -505,7 +505,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MercadoPagoSDKExamplesObjectiveC;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ExampleObjectiveC;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MercadoPagoSDKExamplesObjectiveC/MercadoPagoSDKExamplesObjectiveC-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
