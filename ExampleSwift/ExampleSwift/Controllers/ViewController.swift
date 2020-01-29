@@ -21,7 +21,10 @@ class ViewController: UIViewController {
     private var checkout: MercadoPagoCheckout?
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+        self.title = "PX Example Swift"
+    }
+
+    @IBAction func startCheckout(_ sender: Any) {
         // runMercadoPagoCheckout()
         runMercadoPagoCheckoutWithLifecycle()
     }

@@ -17,6 +17,10 @@
 @implementation ViewController
 
 - (void)viewDidLoad {
+    self.title = @"PX Example Objective C";
+}
+
+- (IBAction)startCheckout:(id)sender {
     // [self runMercadoPagoCheckout];
     [self runMercadoPagoCheckoutWithLifecycle];
 }
