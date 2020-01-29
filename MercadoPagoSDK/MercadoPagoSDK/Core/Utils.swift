@@ -65,7 +65,7 @@ internal class Utils {
         return dateFormatter.string(from: date!)
     }
 
-    class func getAttributedAmount(_ formattedString: String, thousandSeparator: String, decimalSeparator: String, currencySymbol: String, color: UIColor = UIColor.px_white(), fontSize: CGFloat = 20, centsFontSize: CGFloat = 10, baselineOffset: Int = 7) -> NSAttributedString {
+    class func getAttributedAmount(_ formattedString: String, thousandSeparator: String, decimalSeparator: String, currencySymbol: String, color: UIColor = .white, fontSize: CGFloat = 20, centsFontSize: CGFloat = 10, baselineOffset: Int = 7) -> NSAttributedString {
         let cents = getCentsFormatted(formattedString, decimalSeparator: decimalSeparator)
         let amount = getAmountFormatted(String(describing: Int(formattedString)), thousandSeparator: thousandSeparator, decimalSeparator: decimalSeparator)
 
@@ -83,11 +83,11 @@ internal class Utils {
         return attributedSymbol
     }
 
-    class func getAttributedAmount(_ amount: Double, currency: PXCurrency, color: UIColor = UIColor.px_white(), fontSize: CGFloat = 20, centsFontSize: CGFloat = 10, baselineOffset: Int = 7, negativeAmount: Bool = false, lightFont: Bool = false) -> NSMutableAttributedString {
+    class func getAttributedAmount(_ amount: Double, currency: PXCurrency, color: UIColor = .white, fontSize: CGFloat = 20, centsFontSize: CGFloat = 10, baselineOffset: Int = 7, negativeAmount: Bool = false, lightFont: Bool = false) -> NSMutableAttributedString {
         return getAttributedAmount(amount, thousandSeparator: currency.getThousandsSeparatorOrDefault(), decimalSeparator: currency.getDecimalSeparatorOrDefault(), currencySymbol: currency.getCurrencySymbolOrDefault(), color: color, fontSize: fontSize, centsFontSize: centsFontSize, baselineOffset: baselineOffset, negativeAmount: negativeAmount, lightFont: lightFont)
     }
 
-    class func getAttributedAmount(_ amount: Double, thousandSeparator: String, decimalSeparator: String, currencySymbol: String, color: UIColor = UIColor.px_white(), fontSize: CGFloat = 20, centsFontSize: CGFloat = 10, baselineOffset: Int = 7, negativeAmount: Bool = false, smallSymbol: Bool = false, lightFont: Bool = false) -> NSMutableAttributedString {
+    class func getAttributedAmount(_ amount: Double, thousandSeparator: String, decimalSeparator: String, currencySymbol: String, color: UIColor = .white, fontSize: CGFloat = 20, centsFontSize: CGFloat = 10, baselineOffset: Int = 7, negativeAmount: Bool = false, smallSymbol: Bool = false, lightFont: Bool = false) -> NSMutableAttributedString {
         let cents = getCentsFormatted(String(amount), decimalSeparator: ".")
         let amount = getAmountFormatted(String(describing: Int(amount)), thousandSeparator: thousandSeparator, decimalSeparator: ".")
 
@@ -114,7 +114,11 @@ internal class Utils {
         attributedSymbol.append(space)
         attributedSymbol.append(attributedAmount)
         if cents != "00" {
-            attributedSymbol.append(space)
+            if decimalSeparator.isNotEmpty {
+                attributedSymbol.append(decimalSeparator.toAttributedString())
+            } else {
+                attributedSymbol.append(space)
+            }
             attributedSymbol.append(attributedCents)
         }
         return attributedSymbol
@@ -387,11 +391,11 @@ internal class Utils {
         }
     }
 
-    static internal func findPaymentMethodSearchItemInGroups(_ paymentMethodSearch: PXPaymentMethodSearch, paymentMethodId: String, paymentTypeId: PXPaymentTypes?) -> PXPaymentMethodSearchItem? {
-        guard paymentMethodSearch.paymentMethodSearchItem != nil
+    static internal func findPaymentMethodSearchItemInGroups(_ paymentMethodSearch: PXInitDTO, paymentMethodId: String, paymentTypeId: PXPaymentTypes?) -> PXPaymentMethodSearchItem? {
+        guard paymentMethodSearch.groups != nil
             else { return nil }
 
-        if let result = Utils.findPaymentMethodSearchItemById(paymentMethodSearch.paymentMethodSearchItem, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
+        if let result = Utils.findPaymentMethodSearchItemById(paymentMethodSearch.groups, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
             return result
         }
         return nil

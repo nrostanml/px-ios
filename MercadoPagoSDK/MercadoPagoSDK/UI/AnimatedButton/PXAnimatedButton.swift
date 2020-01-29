@@ -124,7 +124,7 @@ extension PXAnimatedButton: ProgressViewDelegate, CAAnimationDelegate {
         self.status = .normal
         self.resetButton()
         self.isUserInteractionEnabled = false
-        PXComponentFactory.SnackBar.showShortDurationMessage(message: "review_and_confirm_toast_error".localized_beta) {
+        PXComponentFactory.SnackBar.showShortDurationMessage(message: "review_and_confirm_toast_error".localized) {
             self.animationDelegate?.shakeDidFinish()
             self.isUserInteractionEnabled = true
         }
@@ -209,10 +209,12 @@ extension PXAnimatedButton {
     }
 
     func setDisabled() {
-        buttonColor = backgroundColor
-        isUserInteractionEnabled = false
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.backgroundColor = ThemeManager.shared.greyColor()
+        if backgroundColor != ThemeManager.shared.greyColor() {
+            buttonColor = backgroundColor
+            isUserInteractionEnabled = false
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                self?.backgroundColor = ThemeManager.shared.greyColor()
+            }
         }
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 extension MercadoPagoCheckout {
-
+    
     func showPaymentMethodsScreen() {
         viewModel.clearCollectedData()
         let paymentMethodSelectionStep = PaymentVaultViewController(viewModel: self.viewModel.paymentVaultViewModel(), callback: { [weak self] (paymentOptionSelected: PaymentMethodOption) -> Void  in
@@ -172,7 +172,7 @@ extension MercadoPagoCheckout {
         if viewModel.paymentResult == nil, let payment = viewModel.payment {
             viewModel.paymentResult = PaymentResult(payment: payment, paymentData: viewModel.paymentData)
         }
-        
+
         var congratsViewController: MercadoPagoUIViewController
         let congratsViewControllerCallback: ( _ status: PaymentResult.CongratsState) -> Void = { [weak self] (state: PaymentResult.CongratsState) in
             guard let self = self else { return }
@@ -191,14 +191,9 @@ extension MercadoPagoCheckout {
                 self.finish()
             }
         }
-        
-        let resultViewModel = viewModel.resultViewModel()
-        if viewModel.paymentResult?.isApproved() ?? false || viewModel.instructionsInfo != nil {
-            congratsViewController = PXNewResultViewController(viewModel: resultViewModel, callback: congratsViewControllerCallback)
-        } else {
-            congratsViewController = PXResultViewController(viewModel: resultViewModel, callback: congratsViewControllerCallback)
-        }
-        
+
+        let resultViewModel = self.viewModel.resultViewModel()
+        congratsViewController = PXNewResultViewController(viewModel: resultViewModel, callback: congratsViewControllerCallback)
         viewModel.pxNavigationHandler.pushViewController(viewController: congratsViewController, animated: false)
     }
 
@@ -214,12 +209,7 @@ extension MercadoPagoCheckout {
 
         let pxBusinessResultViewModel = PXBusinessResultViewModel(businessResult: businessResult, paymentData: viewModel.paymentData, amountHelper: viewModel.amountHelper, pointsAndDiscounts: viewModel.pointsAndDiscounts)
 
-        if businessResult.isApproved() {
-            congratsViewController = PXNewResultViewController(viewModel: pxBusinessResultViewModel, callback: congratsViewControllerCallback)
-        } else {
-            congratsViewController = PXResultViewController(viewModel: pxBusinessResultViewModel, callback: congratsViewControllerCallback)
-        }
-
+        congratsViewController = PXNewResultViewController(viewModel: pxBusinessResultViewModel, callback: congratsViewControllerCallback)
         viewModel.pxNavigationHandler.pushViewController(viewController: congratsViewController, animated: false)
     }
 
@@ -288,17 +278,49 @@ extension MercadoPagoCheckout {
     }
 
     func startOneTapFlow() {
-        guard let search = viewModel.search, let paymentOtionSelected = viewModel.paymentOptionSelected else {
+        guard let search = viewModel.search, let paymentOptionSelected = viewModel.paymentOptionSelected else {
             return
         }
 
         let paymentFlow = viewModel.createPaymentFlow(paymentErrorHandler: self)
 
-        let onetapFlow = OneTapFlow(navigationController: viewModel.pxNavigationHandler, paymentData: viewModel.paymentData, checkoutPreference: viewModel.checkoutPreference, search: search, paymentOptionSelected: paymentOtionSelected, reviewConfirmConfiguration: viewModel.getAdvancedConfiguration().reviewConfirmConfiguration, chargeRules: viewModel.chargeRules, oneTapResultHandler: self, advancedConfiguration: viewModel.getAdvancedConfiguration(), mercadoPagoServicesAdapter: viewModel.mercadoPagoServicesAdapter, paymentConfigurationService: viewModel.paymentConfigurationService, disabledOption: viewModel.disabledOption, escManager: viewModel.escManager)
+        if shouldUpdateOnetapFlow() {
+            if let cardId = cardIdForInitFlowRefresh {
+                if viewModel.customPaymentOptions?.first(where: { $0.getCardId() == cardId }) != nil {
+                    viewModel.onetapFlow?.update(checkoutViewModel: viewModel, search: search, paymentOptionSelected: paymentOptionSelected)
+                } else {
+                    // New card didn't return. Refresh Init again
+                    refreshInitFlow(cardId: cardId)
+                    return
+                }
+            }
+        } else {
+            viewModel.onetapFlow = OneTapFlow(checkoutViewModel: viewModel, search: search, paymentOptionSelected: paymentOptionSelected, oneTapResultHandler: self)
+        }
 
-        onetapFlow.setCustomerPaymentMethods(viewModel.customPaymentOptions)
-        onetapFlow.setPaymentMethodPlugins(viewModel.paymentMethodPlugins)
-        onetapFlow.setPaymentFlow(paymentFlow: paymentFlow)
-        onetapFlow.start()
+        viewModel.onetapFlow?.setCustomerPaymentMethods(viewModel.customPaymentOptions)
+        viewModel.onetapFlow?.setPaymentMethodPlugins(viewModel.paymentMethodPlugins)
+        viewModel.onetapFlow?.setPaymentFlow(paymentFlow: paymentFlow)
+
+        if shouldUpdateOnetapFlow() {
+            viewModel.onetapFlow?.updateOneTapViewModel(cardId: cardIdForInitFlowRefresh ?? "")
+            cardIdForInitFlowRefresh = nil
+        } else {
+            viewModel.onetapFlow?.start()
+        }
+    }
+
+    func shouldUpdateOnetapFlow() -> Bool {
+        if viewModel.onetapFlow != nil,
+            let cardId = cardIdForInitFlowRefresh,
+            cardId.isNotEmpty,
+            countInitFlowRefreshRetries <= maxInitFlowRefreshRetries {
+            countInitFlowRefreshRetries += 1
+            return true
+        }
+        // Card should not be updated or number of retries has reached max number
+        cardIdForInitFlowRefresh = nil
+        countInitFlowRefreshRetries = 0
+        return false
     }
 }

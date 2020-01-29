@@ -13,31 +13,33 @@ extension MercadoPagoCheckoutViewModel {
     func createInitFlow() {
         // Create init flow props.
         let initFlowProperties: InitFlowProperties
-        initFlowProperties.checkoutPreference = self.checkoutPreference
-        initFlowProperties.paymentData = self.paymentData
-        initFlowProperties.paymentMethodPlugins = self.paymentMethodPlugins
-        initFlowProperties.paymentPlugin = self.paymentPlugin
-        initFlowProperties.paymentMethodSearchResult = self.search
-        initFlowProperties.chargeRules = self.chargeRules
-        initFlowProperties.serviceAdapter = self.mercadoPagoServicesAdapter
-        initFlowProperties.advancedConfig = self.getAdvancedConfiguration()
-        initFlowProperties.paymentConfigurationService = self.paymentConfigurationService
+        initFlowProperties.checkoutPreference = checkoutPreference
+        initFlowProperties.paymentData = paymentData
+        initFlowProperties.paymentMethodPlugins = paymentMethodPlugins
+        initFlowProperties.paymentPlugin = paymentPlugin
+        initFlowProperties.paymentMethodSearchResult = search
+        initFlowProperties.chargeRules = chargeRules
+        initFlowProperties.serviceAdapter = mercadoPagoServicesAdapter
+        initFlowProperties.advancedConfig = getAdvancedConfiguration()
+        initFlowProperties.paymentConfigurationService = paymentConfigurationService
         initFlowProperties.escManager = escManager
         initFlowProperties.privateKey = privateKey
+        initFlowProperties.productId = getAdvancedConfiguration().productId
 
         configureBiometricModule()
 
         // Create init flow.
-        initFlow = InitFlow(flowProperties: initFlowProperties, finishCallback: { [weak self] (checkoutPreference, paymentMethodSearchResponse)  in
-            self?.checkoutPreference = checkoutPreference
-            self?.updateCheckoutModel(paymentMethodSearch: paymentMethodSearchResponse)
-            PXTrackingStore.sharedInstance.addData(forKey: PXTrackingStore.cardIdsESC, value: self?.getCardsIdsWithESC() ?? [])
+        initFlow = InitFlow(flowProperties: initFlowProperties, finishInitCallback: { [weak self] (checkoutPreference, initSearch)  in
+            guard let self = self else { return }
+            self.checkoutPreference = checkoutPreference
+            self.updateCheckoutModel(paymentMethodSearch: initSearch)
+            PXTrackingStore.sharedInstance.addData(forKey: PXTrackingStore.cardIdsESC, value: self.getCardsIdsWithESC())
 
-            let selectedDiscountConfigurartion = paymentMethodSearchResponse.selectedDiscountConfiguration
-            self?.attemptToApplyDiscount(selectedDiscountConfigurartion)
+            let selectedDiscountConfigurartion = initSearch.selectedDiscountConfiguration
+            self.attemptToApplyDiscount(selectedDiscountConfigurartion)
 
-            self?.initFlowProtocol?.didFinishInitFlow()
-        }, errorCallback: { [weak self] initFlowError in
+            self.initFlowProtocol?.didFinishInitFlow()
+        }, errorInitCallback: { [weak self] initFlowError in
             self?.initFlowProtocol?.didFailInitFlow(flowError: initFlowError)
         })
     }
@@ -48,6 +50,11 @@ extension MercadoPagoCheckoutViewModel {
 
     func startInitFlow() {
         trackingConfig?.updateTracker()
+        initFlow?.start()
+    }
+
+    func refreshInitFlow() {
+        initFlow?.initFlowModel.updateInitModel(paymentMethodsResponse: nil)
         initFlow?.start()
     }
 

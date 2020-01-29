@@ -1,3 +1,96 @@
+# v4.30.1
+🚀Private Release - 4.30.1 🚀
+MercadoPagoSDKV4 - Private Version
+- MLCardForm update
+- Added max retries for Init refresh 
+
+# v4.30
+🚀Private Release - 4.30 🚀
+MercadoPagoSDKV4 - Private Version
+- MLCardForm support
+
+# v4.29.1
+🚀Private Release - 4.29.1 🚀
+MercadoPagoSDKV4 - Private Version
+- Babel support
+- Error result screen layout updated
+- Payment method pre selection fix
+
+# v4.29
+🚀Private Release - 4.29 🚀
+MercadoPagoSDKV4 - Private Version
+- Babel support
+- Error result screen layout updated
+- Payment method pre selection fix
+
+# v4.28.3
+🚀Private Release - 4.28.3 🚀
+MercadoPagoSDKV4 - Private Version
+- Discount params config Product ID fix
+
+# v4.28.2
+🚀Private Release - 4.28.2 🚀
+MercadoPagoSDKV4 - Private Version
+- Max installments fix
+- Double rounded fix
+- One Tap header UI fix
+
+# v4.28.1
+🚀Private Release - 4.28.1 🚀
+MercadoPagoSDKV4 - Private Version
+- Benefits support
+- Installments UI enhancements
+
+# v4.28
+🚀Public Release - 4.28 🚀
+MercadoPagoSDKV4 - Public Version
+- Parity with external version
+
+# v4.27.2
+🚀Private Release - 4.27.2 🚀
+MercadoPagoSDKV4 - Private Version
+- Order ID & Merchant Order ID fix
+
+# v4.27.1
+🚀Private Release - 4.27.1 🚀
+MercadoPagoSDKV4 - Private Version
+- Charge rule message support
+
+# v4.27
+🚀Private Release - 4.27 🚀
+MercadoPagoSDKV4 - Private Version
+- Disabled payment methods support
+
+# v4.26.1
+🚀Private Release - 4.26.1 🚀
+MercadoPagoSDKV4 - Private Version
+- PXExperiments ID fix
+
+# v4.26
+🚀Private Release - 4.26 🚀
+MercadoPagoSDKV4 - Private Version
+- New init endpoint
+
+# v4.24.3
+🚀Private Release - 4.24.3 🚀
+MercadoPagoSDKV4 - Private Version
+- Payment IDs fix
+
+# v4.24.2
+🚀Private Release - 4.24.2 🚀
+MercadoPagoSDKV4 - Private Version
+- Rut Fix
+- Congrats improvements
+
+
+# v4.24
+🚀Private Release - 4.24 🚀
+MercadoPagoSDKV4 - Private Version
+- Congrats improvements
+- Fix warnings and possible leaks
+- Fix bug oneTap installmentsView
+
+
 # v4.23
 🚀Private Release - 4.23 🚀
 MercadoPagoSDKV4 - Private Version
@@ -75,7 +168,7 @@ MercadoPagoSDKV4 - Private Version
 MercadoPagoSDKV4 - Private Version
 - Credits
 - iOS13 improvements
- 
+
 # v4.17.0
 🚀Private Release - 4.17.0 🚀
 MercadoPagoSDKV4 - Private Version
@@ -121,7 +214,7 @@ MercadoPagoSDKV4 - Private Version
 MercadoPagoSDKV4 - Private Version
  - Multiplayer pay button customization
  - Fix crash back button in card flow
- 
+
 # v4.13.0
 🚀Private Release - 4.13.0 🚀
 MercadoPagoSDKV4 - Private Version
@@ -217,7 +310,7 @@ MercadoPagoSDKV4 - Private Version
 - Fix double rounding error
 
 # v4.7.2
-🚀Private RC - 4.7.2 🚀 
+🚀Private RC - 4.7.2 🚀
 MercadoPagoSDKV4 - Private Version
 - Split Payments Fix Switch size.
 
@@ -256,12 +349,12 @@ MercadoPagoSDKV4 - Private Version
 🚀Private RC - 4.6.2 🚀
 MercadoPagoSDKV4 - Private Version
 - Discount Token fix
-	
+
 # v4.6.1
 🚀Private RC - 4.6.1 🚀
 MercadoPagoSDKV4 - Private Version
 - Tracking key hot fix
-	
+
 # v4.6.0
 🚀Private RC - 4.6.0 🚀
 MercadoPagoSDKV4 - Private Version

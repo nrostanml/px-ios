@@ -60,7 +60,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
         view.removeAllSubviews()
         view.addSubview(scrollView)
         view.backgroundColor = viewModel.getHeaderColor()
-        scrollView.backgroundColor = .pxWhite
+        scrollView.backgroundColor = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -81,7 +81,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
     func renderContentView() {
         //CONTENT VIEW
         let contentView = UIView()
-        contentView.backgroundColor = .pxWhite
+        contentView.backgroundColor = .white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
 
@@ -257,13 +257,18 @@ extension PXNewResultViewController {
             views.append(ResultViewData(view: receiptView, verticalMargin: 0, horizontalMargin: 0))
         }
 
+        //Error body View
+        if let errorBodyView = viewModel.getErrorBodyView() {
+            views.append(ResultViewData(view: errorBodyView, verticalMargin: 0, horizontalMargin: 0))
+        }
+
         //Payment Method View
-        if !viewModel.hasInstructions(), let PMView = buildPaymentMethodView() {
+        if viewModel.shouldShowPaymentMethod(), let PMView = buildPaymentMethodView() {
             views.append(ResultViewData(view: PMView, verticalMargin: 0, horizontalMargin: 0))
         }
 
         //Split Payment View
-        if !viewModel.hasInstructions(), let splitView = buildSplitPaymentMethodView() {
+        if viewModel.shouldShowPaymentMethod(), let splitView = buildSplitPaymentMethodView() {
             views.append(ResultViewData(view: splitView, verticalMargin: 0, horizontalMargin: 0))
         }
 

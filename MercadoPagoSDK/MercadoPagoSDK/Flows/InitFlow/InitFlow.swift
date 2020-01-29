@@ -8,19 +8,17 @@
 
 import Foundation
 
-final class InitFlow: PXFlow {
-    var pxNavigationHandler: PXNavigationHandler
-    let model: InitFlowModel
+final class InitFlow {
+    let initFlowModel: InitFlowModel
 
     private var status: PXFlowStatus = .ready
-    private let finishInitCallback: ((PXCheckoutPreference, PXPaymentMethodSearch) -> Void)
+    private let finishInitCallback: ((PXCheckoutPreference, PXInitDTO) -> Void)
     private let errorInitCallback: ((InitFlowError) -> Void)
 
-    init(flowProperties: InitFlowProperties, finishCallback: @escaping ((PXCheckoutPreference, PXPaymentMethodSearch) -> Void), errorCallback: @escaping ((InitFlowError) -> Void)) {
-        pxNavigationHandler = PXNavigationHandler.getDefault()
-        finishInitCallback = finishCallback
-        errorInitCallback = errorCallback
-        model = InitFlowModel(flowProperties: flowProperties)
+    init(flowProperties: InitFlowProperties, finishInitCallback: @escaping ((PXCheckoutPreference, PXInitDTO) -> Void), errorInitCallback: @escaping ((InitFlowError) -> Void)) {
+        self.finishInitCallback = finishInitCallback
+        self.errorInitCallback = errorInitCallback
+        initFlowModel = InitFlowModel(flowProperties: flowProperties)
         PXTrackingStore.sharedInstance.cleanChoType()
     }
 
@@ -29,7 +27,7 @@ final class InitFlow: PXFlow {
         if let targetPlugins = paymentMethodPlugins {
             pmPlugins = targetPlugins
         }
-        model.update(paymentPlugin: paymentPlugin, paymentMethodPlugins: pmPlugins, chargeRules: chargeRules)
+        initFlowModel.update(paymentPlugin: paymentPlugin, paymentMethodPlugins: pmPlugins, chargeRules: chargeRules)
     }
 
     deinit {
@@ -37,7 +35,9 @@ final class InitFlow: PXFlow {
             print("DEINIT FLOW - \(self)")
         #endif
     }
+}
 
+extension InitFlow: PXFlow {
     func start() {
         if status != .running {
             status = .running
@@ -46,16 +46,10 @@ final class InitFlow: PXFlow {
     }
 
     func executeNextStep() {
-        let nextStep = model.nextStep()
+        let nextStep = initFlowModel.nextStep()
         switch nextStep {
-        case .SERVICE_GET_PREFERENCE:
-            getCheckoutPreference()
-        case .ACTION_VALIDATE_PREFERENCE:
-            validatePreference()
-        case .SERVICE_GET_PAYMENT_METHODS:
-            getPaymentMethodSearch()
-        case .SERVICE_PAYMENT_METHOD_PLUGIN_INIT:
-            initPaymentMethodPlugins()
+        case .SERVICE_GET_INIT:
+            getInitSearch()
         case .FINISH:
             finishFlow()
         case .ERROR:
@@ -65,9 +59,12 @@ final class InitFlow: PXFlow {
 
     func finishFlow() {
         status = .finished
-        if let paymentMethodsSearch = model.getPaymentMethodSearch() {
+        if let paymentMethodsSearch = initFlowModel.getPaymentMethodSearch() {
             setCheckoutTypeForTracking()
-            finishInitCallback(model.properties.checkoutPreference, paymentMethodsSearch)
+
+            //Return the preference we retrieved or the one the integrator created
+            let preference = paymentMethodsSearch.preference ?? initFlowModel.properties.checkoutPreference
+            finishInitCallback(preference, paymentMethodsSearch)
         } else {
             cancelFlow()
         }
@@ -75,8 +72,8 @@ final class InitFlow: PXFlow {
 
     func cancelFlow() {
         status = .finished
-        errorInitCallback(model.getError())
-        model.resetError()
+        errorInitCallback(initFlowModel.getError())
+        initFlowModel.resetError()
     }
 
     func exitCheckout() {}
@@ -86,11 +83,11 @@ final class InitFlow: PXFlow {
 extension InitFlow {
     func setFlowRetry(step: InitFlowModel.Steps) {
         status = .ready
-        model.setPendingRetry(forStep: step)
+        initFlowModel.setPendingRetry(forStep: step)
     }
 
     func disposePendingRetry() {
-        model.removePendingRetry()
+        initFlowModel.removePendingRetry()
     }
 
     func getStatus() -> PXFlowStatus {
@@ -107,8 +104,8 @@ extension InitFlow {
 // MARK: - Privates
 extension InitFlow {
     private func setCheckoutTypeForTracking() {
-        if let paymentMethodsSearch = model.getPaymentMethodSearch() {
-            PXTrackingStore.sharedInstance.setChoType(paymentMethodsSearch.expressCho != nil ? .one_tap : .traditional)
+        if let paymentMethodsSearch = initFlowModel.getPaymentMethodSearch() {
+            PXTrackingStore.sharedInstance.setChoType(paymentMethodsSearch.oneTap != nil ? .one_tap : .traditional)
         }
     }
 }

@@ -16,11 +16,13 @@ final internal class OneTapFlowModel: PXFlowModel {
         case serviceCreateESCCardToken
         case payment
     }
-
+    internal var publicKey: String = ""
+    internal var privateKey: String?
+    internal var siteId: String = ""
     var paymentData: PXPaymentData
     let checkoutPreference: PXCheckoutPreference
     var paymentOptionSelected: PaymentMethodOption
-    let search: PXPaymentMethodSearch
+    let search: PXInitDTO
     var readyToPay: Bool = false
     var paymentResult: PaymentResult?
     var instructionsInfo: PXInstructions?
@@ -34,6 +36,9 @@ final internal class OneTapFlowModel: PXFlowModel {
     // Payment flow
     var paymentFlow: PXPaymentFlow?
     weak var paymentResultHandler: PXPaymentResultHandlerProtocol?
+
+    // One Tap Flow
+    weak var oneTapFlow: OneTapFlow?
 
     var chargeRules: [PXPaymentTypeChargeRule]?
 
@@ -49,21 +54,24 @@ final internal class OneTapFlowModel: PXFlowModel {
     let mercadoPagoServicesAdapter: MercadoPagoServicesAdapter
     let paymentConfigurationService: PXPaymentConfigurationServices
 
-    init(paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, search: PXPaymentMethodSearch, paymentOptionSelected: PaymentMethodOption, chargeRules: [PXPaymentTypeChargeRule]?, mercadoPagoServicesAdapter: MercadoPagoServicesAdapter, advancedConfiguration: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices, disabledOption: PXDisabledOption?, escManager: MercadoPagoESC?) {
-        self.paymentData = paymentData.copy() as? PXPaymentData ?? paymentData
-        self.checkoutPreference = checkoutPreference
+    init(checkoutViewModel: MercadoPagoCheckoutViewModel, search: PXInitDTO, paymentOptionSelected: PaymentMethodOption) {
+        publicKey = checkoutViewModel.publicKey
+        privateKey = checkoutViewModel.privateKey
+        siteId = checkoutViewModel.checkoutPreference.siteId
+        paymentData = checkoutViewModel.paymentData.copy() as? PXPaymentData ?? checkoutViewModel.paymentData
+        checkoutPreference = checkoutViewModel.checkoutPreference
         self.search = search
         self.paymentOptionSelected = paymentOptionSelected
-        self.advancedConfiguration = advancedConfiguration
-        self.chargeRules = chargeRules
-        self.mercadoPagoServicesAdapter = mercadoPagoServicesAdapter
-        self.escManager = escManager
-        self.paymentConfigurationService = paymentConfigurationService
-        self.disabledOption = disabledOption
+        advancedConfiguration = checkoutViewModel.getAdvancedConfiguration()
+        chargeRules = checkoutViewModel.chargeRules
+        mercadoPagoServicesAdapter = checkoutViewModel.mercadoPagoServicesAdapter
+        escManager = checkoutViewModel.escManager
+        paymentConfigurationService = checkoutViewModel.paymentConfigurationService
+        disabledOption = checkoutViewModel.disabledOption
 
         // Payer cost pre selection.
-        let paymentMethodId = search.expressCho?.first?.paymentMethodId
-        let firstCardID = search.expressCho?.first?.oneTapCard?.cardId
+        let paymentMethodId = search.oneTap?.first?.paymentMethodId
+        let firstCardID = search.oneTap?.first?.oneTapCard?.cardId
         let creditsCase = paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue
         let cardCase = firstCardID != nil
 
@@ -111,12 +119,15 @@ internal extension OneTapFlowModel {
         return SecurityCodeViewModel(paymentMethod: paymentMethod, cardInfo: cardInformation, reason: reason)
     }
 
-    func reviewConfirmViewModel() -> PXOneTapViewModel {
-        let viewModel = PXOneTapViewModel(amountHelper: self.amountHelper, paymentOptionSelected: paymentOptionSelected, advancedConfig: advancedConfiguration, userLogged: false, disabledOption: disabledOption, escProtocol: self.escManager)
-        viewModel.expressData = search.expressCho
-        viewModel.paymentMethods = search.paymentMethods
+    func oneTapViewModel() -> PXOneTapViewModel {
+        let viewModel = PXOneTapViewModel(amountHelper: amountHelper, paymentOptionSelected: paymentOptionSelected, advancedConfig: advancedConfiguration, userLogged: false, disabledOption: disabledOption, escProtocol: escManager, currentFlow: oneTapFlow)
+        viewModel.publicKey = publicKey
+        viewModel.privateKey = privateKey
+        viewModel.siteId = siteId
+        viewModel.excludedPaymentTypeIds = checkoutPreference.getExcludedPaymentTypesIds()
+        viewModel.expressData = search.oneTap
+        viewModel.paymentMethods = search.availablePaymentMethods
         viewModel.items = checkoutPreference.items
-        viewModel.paymentMethodPlugins = paymentMethodPlugins
         viewModel.additionalInfoSummary = checkoutPreference.pxAdditionalInfo?.pxSummary
         return viewModel
     }
@@ -133,7 +144,7 @@ internal extension OneTapFlowModel {
             // Set total amount to pay with card without discount
             paymentData.transactionAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: splitConfiguration?.primaryPaymentMethod?.amount)
 
-            let accountMoneyPMs = search.paymentMethods.filter { (paymentMethod) -> Bool in
+            let accountMoneyPMs = search.availablePaymentMethods.filter { (paymentMethod) -> Bool in
                 return paymentMethod.id == splitConfiguration?.secondaryPaymentMethod?.id
             }
             if let accountMoneyPM = accountMoneyPMs.first {

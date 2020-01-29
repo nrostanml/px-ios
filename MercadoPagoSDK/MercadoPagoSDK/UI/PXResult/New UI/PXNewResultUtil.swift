@@ -119,7 +119,7 @@ extension PXNewResultUtil {
         let secondString: NSAttributedString? = getPMSecondString(paymentData: paymentData)
         let thirdString: NSAttributedString? = getPMThirdString(paymentData: paymentData)
 
-        let data = PXNewCustomViewData(firstString: firstString, secondString: secondString, thirdString: thirdString, icon: image, iconURL: nil, action: nil, color: .pxWhite)
+        let data = PXNewCustomViewData(firstString: firstString, secondString: secondString, thirdString: thirdString, icon: image, iconURL: nil, action: nil, color: .white)
         return data
     }
 
@@ -206,7 +206,7 @@ extension PXNewResultUtil {
 
         if paymentMethod.isCard {
             if let lastFourDigits = (paymentData.token?.lastFourDigits) {
-                pmDescription = paymentMethodName + " " + "terminada en ".localized + lastFourDigits
+                pmDescription = paymentMethodName + " " + "terminada en".localized + " " + lastFourDigits
             }
         } else {
             pmDescription = paymentMethodName
