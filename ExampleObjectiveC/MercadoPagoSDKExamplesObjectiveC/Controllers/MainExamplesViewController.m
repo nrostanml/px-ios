@@ -9,11 +9,6 @@
 #import "MainExamplesViewController.h"
 #import "ExampleUtils.h"
 
-#import "MercadoPagoSDKExamplesObjectiveC-Swift.h"
-#import "PaymentMethodPluginConfigViewController.h"
-#import "PaymentPluginViewController.h"
-#import "MLMyMPPXTrackListener.h"
-
 #ifdef PX_PRIVATE_POD
     @import MercadoPagoSDKV4;
 #else
@@ -22,9 +17,9 @@
 
 @implementation MainExamplesViewController
 
-- (IBAction)checkoutFlow:(id)sender {
-    [self runMercadoPagoCheckout];
-//    [self runMercadoPagoCheckoutWithLifecycle];
+- (void)viewDidLoad {
+    // [self runMercadoPagoCheckout];
+    [self runMercadoPagoCheckoutWithLifecycle];
 }
 
 -(void)runMercadoPagoCheckout {
