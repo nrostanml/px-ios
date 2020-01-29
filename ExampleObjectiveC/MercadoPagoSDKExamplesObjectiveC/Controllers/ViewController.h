@@ -14,7 +14,7 @@
     @import MercadoPagoSDK;
 #endif
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <PXLifeCycleProtocol>
 
 @property MercadoPagoCheckoutBuilder *checkoutBuilder;
 
