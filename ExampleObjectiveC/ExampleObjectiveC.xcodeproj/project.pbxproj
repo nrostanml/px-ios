@@ -51,7 +51,7 @@
 		76EF7ECC1D2559140087C785 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		76EF7ECF1D2559140087C785 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		76EF7ED11D2559140087C785 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		76EF7ED61D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MercadoPagoSDKExamplesObjectiveCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		76EF7ED61D2559140087C785 /* ExampleObjectiveCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleObjectiveCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76EF7F581D26FDB80087C785 /* MainExamplesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainExamplesViewController.h; sourceTree = "<group>"; };
 		76EF7F591D26FDB80087C785 /* MainExamplesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainExamplesViewController.m; sourceTree = "<group>"; };
 		81760F3A1FD5981B00237A81 /* MercadoPagoPXTracking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MercadoPagoPXTracking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,7 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				76EF7EBD1D2559140087C785 /* ExampleObjectiveC.app */,
-				76EF7ED61D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.xctest */,
+				76EF7ED61D2559140087C785 /* ExampleObjectiveCTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,9 +167,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		76EF7EBC1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC */ = {
+		76EF7EBC1D2559140087C785 /* ExampleObjectiveC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 76EF7EEA1D2559140087C785 /* Build configuration list for PBXNativeTarget "MercadoPagoSDKExamplesObjectiveC" */;
+			buildConfigurationList = 76EF7EEA1D2559140087C785 /* Build configuration list for PBXNativeTarget "ExampleObjectiveC" */;
 			buildPhases = (
 				F3BA351323CF6ABE085D82CA /* [CP] Check Pods Manifest.lock */,
 				76EF7EB91D2559140087C785 /* Sources */,
@@ -183,14 +183,14 @@
 			);
 			dependencies = (
 			);
-			name = MercadoPagoSDKExamplesObjectiveC;
+			name = ExampleObjectiveC;
 			productName = MercadoPagoSDKExamplesObjectiveC;
 			productReference = 76EF7EBD1D2559140087C785 /* ExampleObjectiveC.app */;
 			productType = "com.apple.product-type.application";
 		};
-		76EF7ED51D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests */ = {
+		76EF7ED51D2559140087C785 /* ExampleObjectiveCTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 76EF7EED1D2559140087C785 /* Build configuration list for PBXNativeTarget "MercadoPagoSDKExamplesObjectiveCTests" */;
+			buildConfigurationList = 76EF7EED1D2559140087C785 /* Build configuration list for PBXNativeTarget "ExampleObjectiveCTests" */;
 			buildPhases = (
 				76EF7ED21D2559140087C785 /* Sources */,
 				76EF7ED31D2559140087C785 /* Frameworks */,
@@ -200,9 +200,9 @@
 			dependencies = (
 				76EF7ED81D2559140087C785 /* PBXTargetDependency */,
 			);
-			name = MercadoPagoSDKExamplesObjectiveCTests;
+			name = ExampleObjectiveCTests;
 			productName = MercadoPagoSDKExamplesObjectiveCTests;
-			productReference = 76EF7ED61D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.xctest */;
+			productReference = 76EF7ED61D2559140087C785 /* ExampleObjectiveCTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -226,7 +226,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 76EF7EB81D2559140087C785 /* Build configuration list for PBXProject "MercadoPagoSDKExamplesObjectiveC" */;
+			buildConfigurationList = 76EF7EB81D2559140087C785 /* Build configuration list for PBXProject "ExampleObjectiveC" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -240,8 +240,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				76EF7EBC1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC */,
-				76EF7ED51D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests */,
+				76EF7EBC1D2559140087C785 /* ExampleObjectiveC */,
+				76EF7ED51D2559140087C785 /* ExampleObjectiveCTests */,
 			);
 		};
 /* End PBXProject section */
@@ -355,7 +355,7 @@
 /* Begin PBXTargetDependency section */
 		76EF7ED81D2559140087C785 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 76EF7EBC1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC */;
+			target = 76EF7EBC1D2559140087C785 /* ExampleObjectiveC */;
 			targetProxy = 76EF7ED71D2559140087C785 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -521,7 +521,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mercadopago.MercadoPagoSDKExamplesObjectiveCTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MercadoPagoSDKExamplesObjectiveC.app/MercadoPagoSDKExamplesObjectiveC";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExampleObjectiveC.app/ExampleObjectiveC";
 			};
 			name = Debug;
 		};
@@ -534,14 +534,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mercadopago.MercadoPagoSDKExamplesObjectiveCTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MercadoPagoSDKExamplesObjectiveC.app/MercadoPagoSDKExamplesObjectiveC";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExampleObjectiveC.app/ExampleObjectiveC";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		76EF7EB81D2559140087C785 /* Build configuration list for PBXProject "MercadoPagoSDKExamplesObjectiveC" */ = {
+		76EF7EB81D2559140087C785 /* Build configuration list for PBXProject "ExampleObjectiveC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				76EF7EE81D2559140087C785 /* Debug */,
@@ -550,7 +550,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		76EF7EEA1D2559140087C785 /* Build configuration list for PBXNativeTarget "MercadoPagoSDKExamplesObjectiveC" */ = {
+		76EF7EEA1D2559140087C785 /* Build configuration list for PBXNativeTarget "ExampleObjectiveC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				76EF7EEB1D2559140087C785 /* Debug */,
@@ -559,7 +559,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		76EF7EED1D2559140087C785 /* Build configuration list for PBXNativeTarget "MercadoPagoSDKExamplesObjectiveCTests" */ = {
+		76EF7EED1D2559140087C785 /* Build configuration list for PBXNativeTarget "ExampleObjectiveCTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				76EF7EEE1D2559140087C785 /* Debug */,

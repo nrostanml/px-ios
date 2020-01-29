@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:MercadoPagoSDKExamplesObjectiveC.xcodeproj">
+      location = "group:/Users/acollerone/Projects/Repos/px-ios2/ExampleObjectiveC/ExampleObjectiveC.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "76EF7EBC1D2559140087C785"
-               BuildableName = "MercadoPagoSDKExamplesObjectiveC.app"
-               BlueprintName = "MercadoPagoSDKExamplesObjectiveC"
-               ReferencedContainer = "container:MercadoPagoSDKExamplesObjectiveC.xcodeproj">
+               BuildableName = "ExampleObjectiveC.app"
+               BlueprintName = "ExampleObjectiveC"
+               ReferencedContainer = "container:ExampleObjectiveC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -31,9 +31,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "76EF7EBC1D2559140087C785"
-            BuildableName = "MercadoPagoSDKExamplesObjectiveC.app"
-            BlueprintName = "MercadoPagoSDKExamplesObjectiveC"
-            ReferencedContainer = "container:MercadoPagoSDKExamplesObjectiveC.xcodeproj">
+            BuildableName = "ExampleObjectiveC.app"
+            BlueprintName = "ExampleObjectiveC"
+            ReferencedContainer = "container:ExampleObjectiveC.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -54,9 +54,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "76EF7EBC1D2559140087C785"
-            BuildableName = "MercadoPagoSDKExamplesObjectiveC.app"
-            BlueprintName = "MercadoPagoSDKExamplesObjectiveC"
-            ReferencedContainer = "container:MercadoPagoSDKExamplesObjectiveC.xcodeproj">
+            BuildableName = "ExampleObjectiveC.app"
+            BlueprintName = "ExampleObjectiveC"
+            ReferencedContainer = "container:ExampleObjectiveC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "76EF7EBC1D2559140087C785"
-            BuildableName = "MercadoPagoSDKExamplesObjectiveC.app"
-            BlueprintName = "MercadoPagoSDKExamplesObjectiveC"
-            ReferencedContainer = "container:MercadoPagoSDKExamplesObjectiveC.xcodeproj">
+            BuildableName = "ExampleObjectiveC.app"
+            BlueprintName = "ExampleObjectiveC"
+            ReferencedContainer = "container:ExampleObjectiveC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
