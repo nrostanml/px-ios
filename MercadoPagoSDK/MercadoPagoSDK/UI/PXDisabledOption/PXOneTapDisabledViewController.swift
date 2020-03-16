@@ -16,22 +16,24 @@ class PXOneTapDisabledViewController: UIViewController {
 
         if let title = title {
             let label = UILabel()
-            label.attributedText = title.getAttributedString(fontSize: PXLayout.XS_FONT, textColor: ThemeManager.shared.labelTintColor(), backgroundColor: .clear)
+            label.attributedText = title.getAttributedString(fontSize: PXLayout.XS_FONT, textColor: ThemeManager.shared.boldLabelTintColor(), backgroundColor: .clear)
+            label.font = UIFont.ml_boldSystemFont(ofSize: PXLayout.M_FONT)
             label.textAlignment = .center
             label.numberOfLines = 0
             containerView.addSubviewToBottom(label, withMargin: PXLayout.M_MARGIN)
-            PXLayout.pinLeft(view: label, withMargin: PXLayout.S_MARGIN).isActive = true
-            PXLayout.pinRight(view: label, withMargin: PXLayout.S_MARGIN).isActive = true
+            PXLayout.pinLeft(view: label, withMargin: PXLayout.M_MARGIN).isActive = true
+            PXLayout.pinRight(view: label, withMargin: PXLayout.M_MARGIN).isActive = true
         }
 
         if let description = description {
             let label = UILabel()
             label.attributedText = description.getAttributedString(fontSize: PXLayout.XS_FONT, textColor: ThemeManager.shared.labelTintColor(), backgroundColor: .clear)
+            label.font = UIFont.ml_regularSystemFont(ofSize: PXLayout.XS_FONT)
             label.textAlignment = .center
             label.numberOfLines = 0
             containerView.addSubviewToBottom(label, withMargin: PXLayout.M_MARGIN)
-            PXLayout.pinLeft(view: label, withMargin: PXLayout.S_MARGIN).isActive = true
-            PXLayout.pinRight(view: label, withMargin: PXLayout.S_MARGIN).isActive = true
+            PXLayout.pinLeft(view: label, withMargin: PXLayout.M_MARGIN).isActive = true
+            PXLayout.pinRight(view: label, withMargin: PXLayout.M_MARGIN).isActive = true
         }
 
         if let primaryAction = primaryButton {
@@ -55,15 +57,15 @@ class PXOneTapDisabledViewController: UIViewController {
     func addNewButton(containerView: PXComponentView, action: PXAction) -> UIButton {
         let button = UIButton()
         button.setTitle(action.label, for: .normal)
-        button.backgroundColor = .blue
-        button.layer.cornerRadius = 10
+        button.backgroundColor = ThemeManager.shared.getAccentColor()
+        button.layer.cornerRadius = 5
 
-        containerView.addSubviewToBottom(button, withMargin: PXLayout.M_MARGIN)
+        containerView.addSubviewToBottom(button, withMargin: PXLayout.L_MARGIN)
 
         NSLayoutConstraint.activate([
             button.heightAnchor.constraint(equalToConstant: 50),
-            button.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            button.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20)
+            button.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: PXLayout.M_MARGIN),
+            button.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -PXLayout.M_MARGIN)
             ])
 
         button.add(for: .touchUpInside) {
