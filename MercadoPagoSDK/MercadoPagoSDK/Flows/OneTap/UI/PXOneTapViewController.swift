@@ -585,7 +585,7 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
             PXFeedbackGenerator.heavyImpactFeedback()
 
             //Update card bottom message
-            let bottomMessage = viewModel.getCardBottomMessage(paymentTypeId: selectedCard?.paymentTypeId, benefits: selectedCard?.benefits, status: selectedCard?.status, selectedPayerCost: payerCost)
+            let bottomMessage = viewModel.getCardBottomMessage(paymentTypeId: selectedCard?.paymentTypeId, benefits: selectedCard?.benefits, status: selectedCard?.status, selectedPayerCost: payerCost, displayInfo: selectedCard?.displayInfo)
             viewModel.updateCardSliderModel(at: selectedIndex, bottomMessage: bottomMessage)
             slider.update(viewModel.getCardSliderViewModel())
         }

@@ -10,7 +10,6 @@ import Foundation
 public struct PXStatus: Codable {
     let mainMessage: PXText?
     let secondaryMessage: PXText?
-    let bottomCardDescription: PXText?
     let enabled: Bool
     let detail: String?
 
@@ -19,7 +18,6 @@ public struct PXStatus: Codable {
         case secondaryMessage = "secondary_message"
         case enabled
         case detail
-        case bottomCardDescription = "bottom_card_description"
     }
 
     func isUsable() -> Bool {
