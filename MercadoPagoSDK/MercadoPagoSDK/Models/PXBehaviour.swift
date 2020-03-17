@@ -9,10 +9,11 @@ import Foundation
 
 public struct PXBehaviour: Codable {
     let modal: String?
-}
+    let target: String?
 
-public enum Behaviour: String {
-    case switchSplit = "switch_split"
-    case tapPay = "tap_pay"
-    case tapCard = "tap_card"
+    enum Behaviours: String {
+        case switchSplit = "switch_split"
+        case tapPay = "tap_pay"
+        case tapCard = "tap_card"
+    }
 }
