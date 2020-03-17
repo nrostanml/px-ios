@@ -296,7 +296,7 @@ extension PXOneTapViewController {
         } else if let modal = behaviour.modal, let modalConfig = viewModel.modals?[modal] {
             let primaryAction = getActionForModal(modalConfig.mainButton)
             let secondaryAction = getActionForModal(modalConfig.secondaryButton)
-            let vc = PXOneTapDisabledViewController(title: modalConfig.title, description: modalConfig.description, primaryButton: primaryAction, secondaryButton: secondaryAction)
+            let vc = PXOneTapDisabledViewController(title: modalConfig.title, description: modalConfig.description, primaryButton: primaryAction, secondaryButton: secondaryAction, iconUrl: modalConfig.iconUrl)
             self.currentModal = PXComponentFactory.Modal.show(viewController: vc, title: nil)
         }
     }
@@ -369,7 +369,6 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
         //Update installment row
         installmentInfoRow?.update(model: viewModel.getInstallmentInfoViewModel())
-
 
         if let infoRow = installmentInfoRow, viewModel.getCardSliderViewModel().indices.contains(infoRow.getActiveRowIndex()) {
             let selectedCard = viewModel.getCardSliderViewModel()[infoRow.getActiveRowIndex()]
@@ -513,7 +512,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         guard let message = status.secondaryMessage else {return}
 
         let primaryAction = getActionForModal(nil)
-        let vc = PXOneTapDisabledViewController(title: nil, description: message, primaryButton: primaryAction, secondaryButton: nil)
+        let vc = PXOneTapDisabledViewController(title: nil, description: message, primaryButton: primaryAction, secondaryButton: nil, iconUrl: nil)
 
         self.currentModal = PXComponentFactory.Modal.show(viewController: vc, title: nil)
 

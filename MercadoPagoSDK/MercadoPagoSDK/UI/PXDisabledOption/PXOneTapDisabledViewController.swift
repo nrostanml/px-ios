@@ -9,10 +9,21 @@ import UIKit
 
 class PXOneTapDisabledViewController: UIViewController {
 
-    init(title: PXText?, description: PXText?, primaryButton: PXAction?, secondaryButton: PXAction?) {
+    init(title: PXText?, description: PXText?, primaryButton: PXAction?, secondaryButton: PXAction?, iconUrl: String?) {
         super.init(nibName: nil, bundle: nil)
 
         let containerView = PXComponentView()
+
+        if let iconUrl = iconUrl {
+            let image = PXUIImage(url: iconUrl)
+            let imageView = PXUIImageView()
+            imageView.image = image
+            imageView.enableFadeIn()
+            containerView.addSubviewToBottom(imageView, withMargin: PXLayout.M_MARGIN)
+            PXLayout.setHeight(owner: imageView, height: 102)
+            PXLayout.pinLeft(view: imageView, withMargin: PXLayout.M_MARGIN).isActive = true
+            PXLayout.pinRight(view: imageView, withMargin: PXLayout.M_MARGIN).isActive = true
+        }
 
         if let title = title {
             let label = UILabel()
@@ -37,11 +48,11 @@ class PXOneTapDisabledViewController: UIViewController {
         }
 
         if let primaryAction = primaryButton {
-            addNewButton(containerView: containerView, action: primaryAction)
+            addNewButton(containerView: containerView, action: primaryAction, margin: PXLayout.L_MARGIN)
         }
 
         if let secondaryAction = secondaryButton {
-            addNewButton(containerView: containerView, action: secondaryAction)
+            addNewButton(containerView: containerView, action: secondaryAction, margin: PXLayout.S_MARGIN)
         }
 
         containerView.pinLastSubviewToBottom(withMargin: 20)
@@ -54,13 +65,13 @@ class PXOneTapDisabledViewController: UIViewController {
     }
 
     @discardableResult
-    func addNewButton(containerView: PXComponentView, action: PXAction) -> UIButton {
+    func addNewButton(containerView: PXComponentView, action: PXAction, margin: CGFloat) -> UIButton {
         let button = UIButton()
         button.setTitle(action.label, for: .normal)
         button.backgroundColor = ThemeManager.shared.getAccentColor()
         button.layer.cornerRadius = 5
 
-        containerView.addSubviewToBottom(button, withMargin: PXLayout.L_MARGIN)
+        containerView.addSubviewToBottom(button, withMargin: margin)
 
         NSLayoutConstraint.activate([
             button.heightAnchor.constraint(equalToConstant: 50),
