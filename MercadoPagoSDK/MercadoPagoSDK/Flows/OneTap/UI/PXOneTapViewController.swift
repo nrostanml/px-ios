@@ -377,6 +377,13 @@ extension PXOneTapViewController {
 extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
     func splitPaymentSwitchChangedValue(isOn: Bool, isUserSelection: Bool) {
+        if isUserSelection, let selectedCard = selectedCard, let splitConfiguration = selectedCard.amountConfiguration?.splitConfiguration, let switchSplitBehaviour = selectedCard.behaviour?[PXBehaviour.Behaviours.switchSplit.rawValue] {
+            handleBehaviour(switchSplitBehaviour)
+            splitConfiguration.splitEnabled = false
+            headerView?.updateSplitPaymentView(splitConfiguration: splitConfiguration)
+            return
+        }
+
         viewModel.splitPaymentEnabled = isOn
         if isUserSelection {
             self.viewModel.splitPaymentSelectionByUser = isOn
