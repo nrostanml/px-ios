@@ -290,23 +290,28 @@ extension PXOneTapViewController {
         }
     }
 
-    private func handleBehaviour(_ behaviour: PXBehaviour) {
+    private func handleBehaviour(_ behaviour: PXBehaviour, isSplit: Bool) {
         if let target = behaviour.target {
             PXDeepLinkManager.open(target)
         } else if let modal = behaviour.modal, let modalConfig = viewModel.modals?[modal] {
-            let primaryAction = getActionForModal(modalConfig.mainButton)
-            let secondaryAction = getActionForModal(modalConfig.secondaryButton)
+            let primaryAction = getActionForModal(modalConfig.mainButton, isSplit: isSplit)
+            let secondaryAction = getActionForModal(modalConfig.secondaryButton, isSplit: isSplit)
             let vc = PXOneTapDisabledViewController(title: modalConfig.title, description: modalConfig.description, primaryButton: primaryAction, secondaryButton: secondaryAction, iconUrl: modalConfig.iconUrl)
             self.currentModal = PXComponentFactory.Modal.show(viewController: vc, title: nil)
         }
     }
 
-    private func getActionForModal(_ action: PXRemoteAction?) -> PXAction? {
+    private func getActionForModal(_ action: PXRemoteAction?, isSplit: Bool) -> PXAction? {
         let defaultTitle = "Pagar con otro medio".localized
-        let defaultAction: () -> Void = {
+        let nonSplitDefaultAction: () -> Void = {
             self.currentModal?.dismiss()
             self.selectFirstCardInSlider()
         }
+        let splitDefaultAction: () -> Void = {
+            self.currentModal?.dismiss()
+        }
+
+        let defaultAction = isSplit ? splitDefaultAction : nonSplitDefaultAction
 
         guard let action = action else {
             return PXAction(label: defaultTitle, action: defaultAction)
@@ -324,7 +329,7 @@ extension PXOneTapViewController {
 
     private func handlePayButton() {
         if let selectedCard = selectedCard, let tapPayBehaviour = selectedCard.behaviour?[PXBehaviour.Behaviours.tapPay.rawValue] {
-            handleBehaviour(tapPayBehaviour)
+            handleBehaviour(tapPayBehaviour, isSplit: false)
         } else {
             confirmPayment()
         }
@@ -378,7 +383,7 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
     func splitPaymentSwitchChangedValue(isOn: Bool, isUserSelection: Bool) {
         if isUserSelection, let selectedCard = selectedCard, let splitConfiguration = selectedCard.amountConfiguration?.splitConfiguration, let switchSplitBehaviour = selectedCard.behaviour?[PXBehaviour.Behaviours.switchSplit.rawValue] {
-            handleBehaviour(switchSplitBehaviour)
+            handleBehaviour(switchSplitBehaviour, isSplit: true)
             splitConfiguration.splitEnabled = false
             headerView?.updateSplitPaymentView(splitConfiguration: splitConfiguration)
             return
@@ -529,7 +534,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
 
     func cardDidTap(status: PXStatus) {
         if let selectedCard = selectedCard, let tapCardBehaviour = selectedCard.behaviour?[PXBehaviour.Behaviours.tapCard.rawValue] {
-            handleBehaviour(tapCardBehaviour)
+            handleBehaviour(tapCardBehaviour, isSplit: false)
         } else if status.isDisabled() {
             showDisabledCardModal(status: status)
         }
@@ -539,7 +544,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
 
         guard let message = status.secondaryMessage else {return}
 
-        let primaryAction = getActionForModal(nil)
+        let primaryAction = getActionForModal(nil, isSplit: false)
         let vc = PXOneTapDisabledViewController(title: nil, description: message, primaryButton: primaryAction, secondaryButton: nil, iconUrl: nil)
 
         self.currentModal = PXComponentFactory.Modal.show(viewController: vc, title: nil)
@@ -583,7 +588,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
 extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapInstallmentsSelectorProtocol {
     func cardTapped(status: PXStatus) {
         if let selectedCard = selectedCard, let tapCardBehaviour = selectedCard.behaviour?[PXBehaviour.Behaviours.tapCard.rawValue] {
-            handleBehaviour(tapCardBehaviour)
+            handleBehaviour(tapCardBehaviour, isSplit: false)
         } else if status.isDisabled() {
             showDisabledCardModal(status: status)
         }
