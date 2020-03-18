@@ -20,7 +20,7 @@ class PXOneTapDisabledViewController: UIViewController {
             imageView.image = image
             imageView.enableFadeIn()
             containerView.addSubviewToBottom(imageView, withMargin: PXLayout.M_MARGIN)
-            PXLayout.setHeight(owner: imageView, height: 102)
+            PXLayout.setHeight(owner: imageView, height: 134)
             PXLayout.pinLeft(view: imageView, withMargin: PXLayout.M_MARGIN).isActive = true
             PXLayout.pinRight(view: imageView, withMargin: PXLayout.M_MARGIN).isActive = true
         }
@@ -38,7 +38,7 @@ class PXOneTapDisabledViewController: UIViewController {
 
         if let description = description {
             let label = UILabel()
-            label.attributedText = description.getAttributedString(fontSize: PXLayout.XS_FONT, textColor: ThemeManager.shared.labelTintColor(), backgroundColor: .clear)
+            label.attributedText = description.getAttributedString(fontSize: PXLayout.XS_FONT, textColor: ThemeManager.shared.boldLabelTintColor(), backgroundColor: .clear)
             label.font = UIFont.ml_regularSystemFont(ofSize: PXLayout.XS_FONT)
             label.textAlignment = .center
             label.numberOfLines = 0
@@ -48,11 +48,11 @@ class PXOneTapDisabledViewController: UIViewController {
         }
 
         if let primaryAction = primaryButton {
-            addNewButton(containerView: containerView, action: primaryAction, margin: PXLayout.L_MARGIN)
+            addNewButton(containerView: containerView, action: primaryAction, isSecondary: false, margin: PXLayout.L_MARGIN)
         }
 
         if let secondaryAction = secondaryButton {
-            addNewButton(containerView: containerView, action: secondaryAction, margin: PXLayout.S_MARGIN)
+            addNewButton(containerView: containerView, action: secondaryAction, isSecondary: true, margin: PXLayout.S_MARGIN)
         }
 
         containerView.pinLastSubviewToBottom(withMargin: 20)
@@ -65,11 +65,17 @@ class PXOneTapDisabledViewController: UIViewController {
     }
 
     @discardableResult
-    func addNewButton(containerView: PXComponentView, action: PXAction, margin: CGFloat) -> UIButton {
+    func addNewButton(containerView: PXComponentView, action: PXAction, isSecondary: Bool, margin: CGFloat) -> UIButton {
         let button = UIButton()
         button.setTitle(action.label, for: .normal)
-        button.backgroundColor = ThemeManager.shared.getAccentColor()
-        button.layer.cornerRadius = 5
+        if isSecondary {
+            button.backgroundColor = UIColor.fromHex("#479AD1").withAlphaComponent(0.15)
+            button.setTitleColor(UIColor.fromHex("#009ee3"), for: .normal)
+        } else {
+            button.backgroundColor = ThemeManager.shared.getAccentColor()
+            button.titleLabel?.textColor = .white
+        }
+        button.layer.cornerRadius = 6
 
         containerView.addSubviewToBottom(button, withMargin: margin)
 

@@ -301,6 +301,27 @@ extension PXOneTapViewController {
         }
     }
 
+    private func getActionForModal(_ action: PXRemoteAction?) -> PXAction? {
+        let defaultTitle = "Pagar con otro medio".localized
+        let defaultAction: () -> Void = {
+            self.currentModal?.dismiss()
+            self.selectFirstCardInSlider()
+        }
+
+        guard let action = action else {
+            return PXAction(label: defaultTitle, action: defaultAction)
+        }
+
+        guard let target = action.target else {
+            return PXAction(label: action.label, action: defaultAction)
+        }
+
+        return PXAction(label: action.label, action: {
+            self.currentModal?.dismiss()
+            PXDeepLinkManager.open(target)
+        })
+    }
+
     private func handlePayButton() {
         if let selectedCard = selectedCard, let tapPayBehaviour = selectedCard.behaviour?[PXBehaviour.Behaviours.tapPay.rawValue] {
             handleBehaviour(tapPayBehaviour)
@@ -517,27 +538,6 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         self.currentModal = PXComponentFactory.Modal.show(viewController: vc, title: nil)
 
         trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapDisabledModalPath(), treatAsViewController: false)
-    }
-
-    func getActionForModal(_ action: PXRemoteAction?) -> PXAction? {
-        let defaultTitle = "Pagar con otro medio".localized
-        let defaultAction: () -> Void = {
-            self.currentModal?.dismiss()
-            self.selectFirstCardInSlider()
-        }
-
-        guard let action = action else {
-            return PXAction(label: defaultTitle, action: defaultAction)
-        }
-
-        guard let target = action.target else {
-            return PXAction(label: action.label, action: defaultAction)
-        }
-
-        return PXAction(label: action.label, action: {
-            self.currentModal?.dismiss()
-            PXDeepLinkManager.open(target)
-        })
     }
 
     func addNewCardDidTap() {
