@@ -272,7 +272,7 @@ extension PXOneTapViewModel {
         return cardSliderViewModel
     }
 
-    func updateCardSliderModel(at index: Int, bottomMessage: PXText?) {
+    func updateCardSliderModel(at index: Int, bottomMessage: PXCardBottomMessage?) {
         if cardSliderViewModel.indices.contains(index) {
             cardSliderViewModel[index].bottomMessage = bottomMessage
         }
@@ -336,19 +336,19 @@ extension PXOneTapViewModel {
         return getChargeRuleViewController() != nil
     }
 
-    func getCardBottomMessage(paymentTypeId: String?, benefits: PXBenefits?, status: PXStatus?, selectedPayerCost: PXPayerCost?, displayInfo: PXOneTapDisplayInfo?) -> PXText? {
+    func getCardBottomMessage(paymentTypeId: String?, benefits: PXBenefits?, status: PXStatus?, selectedPayerCost: PXPayerCost?, displayInfo: PXOneTapDisplayInfo?) -> PXCardBottomMessage? {
         let defaultTextColor = UIColor.white
         let defaultBackgroundColor = ThemeManager.shared.noTaxAndDiscountLabelTintColor()
 
         if let displayInfoMessage = displayInfo?.bottomDescription {
-            return displayInfoMessage
+            return PXCardBottomMessage(text: displayInfoMessage, fixed: true)
         }
 
         if let chargeRuleMessage = getChargeRuleBottomMessage(paymentTypeId), (status?.isUsable() ?? true) {
             let text = PXText(message: chargeRuleMessage, backgroundColor: nil, textColor: nil, weight: nil)
             text.setDefaultTextColor(defaultTextColor)
             text.setDefaultBackgroundColor(defaultBackgroundColor)
-            return text
+            return PXCardBottomMessage(text: text, fixed: false)
         }
 
         guard let selectedInstallments = selectedPayerCost?.installments else {
@@ -363,7 +363,7 @@ extension PXOneTapViewModel {
             let text = PXText(message: benefits?.reimbursement?.card?.message, backgroundColor: nil, textColor: nil, weight: nil)
             text.setDefaultTextColor(defaultTextColor)
             text.setDefaultBackgroundColor(defaultBackgroundColor)
-            return text
+            return PXCardBottomMessage(text: text, fixed: false)
         }
 
         return nil
@@ -485,4 +485,9 @@ extension PXOneTapViewModel {
         }
         return nil
     }
+}
+
+struct PXCardBottomMessage {
+    let text: PXText
+    let fixed: Bool
 }
