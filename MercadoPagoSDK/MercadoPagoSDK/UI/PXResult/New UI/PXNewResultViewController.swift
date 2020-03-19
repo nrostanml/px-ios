@@ -212,6 +212,11 @@ extension PXNewResultViewController {
             views.append(ResultViewData(view: importantView, verticalMargin: 0, horizontalMargin: 0))
         }
 
+        //Top text box View
+        if let topTextBoxView = buildTopTextBoxView() {
+            views.append(ResultViewData(view: topTextBoxView, verticalMargin: PXLayout.L_MARGIN, horizontalMargin: PXLayout.M_MARGIN))
+        }
+
         //Points and Discounts
         let pointsView = buildPointsView()
         let discountsView = buildDiscountsView()
@@ -273,6 +278,11 @@ extension PXNewResultViewController {
         //Split Payment View
         if viewModel.shouldShowPaymentMethod(), let splitView = buildSplitPaymentMethodView() {
             views.append(ResultViewData(view: splitView, verticalMargin: 0, horizontalMargin: 0))
+        }
+
+        //View receipt action view
+        if let viewReceiptActionView = buildViewReceiptActionView() {
+            views.append(ResultViewData(view: viewReceiptActionView, verticalMargin: PXLayout.M_MARGIN, horizontalMargin: PXLayout.L_MARGIN))
         }
 
         //Bottom Custom View
@@ -354,6 +364,33 @@ extension PXNewResultViewController {
             itemsViews.append(itemView)
         }
         return itemsViews
+    }
+
+    ////VIEW RECEIPT ACTION
+    func buildViewReceiptActionView() -> UIView? {
+        guard let viewReceiptAction = viewModel.getViewReceiptAction() else {
+            return nil
+        }
+        let button = PXOutlinedSecondaryButton()
+        button.buttonTitle = viewReceiptAction.label
+
+        button.add(for: .touchUpInside) {
+            //open deep link
+            PXDeepLinkManager.open(viewReceiptAction.target)
+        }
+        return button
+    }
+
+    ////TOP TEXT BOX
+    func buildTopTextBoxView() -> UIView? {
+        guard let topTextBox = viewModel.getTopTextBox() else {
+            return nil
+        }
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.attributedText = topTextBox.getAttributedString(fontSize: PXLayout.XS_FONT)
+        label.numberOfLines = 0
+        return label
     }
 
     //INSTRUCTIONS

@@ -309,6 +309,14 @@ extension PXResultViewModel: PXNewResultViewModelInterface {
         return action
     }
 
+    func getViewReceiptAction() -> PXRemoteAction? {
+        return pointsAndDiscounts?.viewReceiptAction
+    }
+
+    func getTopTextBox() -> PXText? {
+        return pointsAndDiscounts?.topTextBox
+    }
+
     func hasInstructions() -> Bool {
         let bodyComponent = buildBodyComponent() as? PXBodyComponent
         return bodyComponent?.hasInstructions() ?? false
