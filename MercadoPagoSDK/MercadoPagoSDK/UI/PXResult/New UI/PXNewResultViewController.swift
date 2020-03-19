@@ -214,7 +214,7 @@ extension PXNewResultViewController {
 
         //Top text box View
         if let topTextBoxView = buildTopTextBoxView() {
-            views.append(ResultViewData(view: topTextBoxView, verticalMargin: PXLayout.L_MARGIN, horizontalMargin: PXLayout.M_MARGIN))
+            views.append(ResultViewData(view: topTextBoxView, verticalMargin: PXLayout.ZERO_MARGIN, horizontalMargin: PXLayout.ZERO_MARGIN))
         }
 
         //Points and Discounts
@@ -386,11 +386,24 @@ extension PXNewResultViewController {
         guard let topTextBox = viewModel.getTopTextBox() else {
             return nil
         }
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSeparatorLineToBottom(height: 1)
+
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.attributedText = topTextBox.getAttributedString(fontSize: PXLayout.XS_FONT)
         label.numberOfLines = 0
-        return label
+
+        containerView.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: containerView.topAnchor, constant: PXLayout.L_MARGIN),
+            label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -PXLayout.L_MARGIN),
+            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: PXLayout.M_MARGIN),
+            label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -PXLayout.M_MARGIN)
+        ])
+
+        return containerView
     }
 
     //INSTRUCTIONS
