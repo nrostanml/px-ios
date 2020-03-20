@@ -1,5 +1,5 @@
 //
-//  PXCreditsDisplayInfo.swift
+//  PXPaymentMethodDisplayInfo.swift
 //  MercadoPagoSDKV4
 //
 //  Created by Federico Bustos Fierro on 25/06/2019.
@@ -8,7 +8,7 @@
 import UIKit
 
 /// :nodoc:
-public struct PXCreditsDisplayInfo: Codable {
+public struct PXPaymentMethodDisplayInfo: Codable {
     let resultInfo: PXResultInfo?
     let termsAndConditions: PXTermsDto?
     let description: PXText?
