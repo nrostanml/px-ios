@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MLUI
 
 class PXOneTapDisabledViewController: UIViewController {
 
@@ -65,17 +66,14 @@ class PXOneTapDisabledViewController: UIViewController {
     }
 
     @discardableResult
-    func addNewButton(containerView: PXComponentView, action: PXAction, isSecondary: Bool, margin: CGFloat) -> UIButton {
-        let button = UIButton()
-        button.setTitle(action.label, for: .normal)
+    func addNewButton(containerView: PXComponentView, action: PXAction, isSecondary: Bool, margin: CGFloat) -> UIView {
+        let button: MLButton
         if isSecondary {
-            button.backgroundColor = UIColor.fromHex("#479AD1").withAlphaComponent(0.15)
-            button.setTitleColor(UIColor.fromHex("#009ee3"), for: .normal)
+            button = PXOutlinedSecondaryButton()
         } else {
-            button.backgroundColor = ThemeManager.shared.getAccentColor()
-            button.titleLabel?.textColor = .white
-        }
-        button.layer.cornerRadius = 6
+            button = PXPrimaryButton()
+       }
+        button.buttonTitle = action.label
 
         containerView.addSubviewToBottom(button, withMargin: margin)
 
