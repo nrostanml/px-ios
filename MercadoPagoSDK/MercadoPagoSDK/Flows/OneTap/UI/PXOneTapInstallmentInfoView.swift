@@ -247,12 +247,6 @@ extension PXOneTapInstallmentInfoView {
         if let currentIndex = getCurrentIndex(), let currentModel = model, currentModel.indices.contains(currentIndex) {
             let cardStatus = currentModel[currentIndex].status
 
-//            if cardStatus.isDisabled() {
-//                delegate?.cardTapped(status: cardStatus)
-//            } else if cardStatus.isSuspended() {
-//                delegate?.suspendedCardTapped()
-//            }
-
             if !cardStatus.isUsable() {
                 delegate?.cardTapped(status: cardStatus)
             } else if currentModel[currentIndex].shouldShowArrow, tapEnabled {
