@@ -49,7 +49,9 @@ internal class PaymentMethodSearchService: MercadoPagoService {
         if let prefId = prefId {
             uri.append("/\(prefId)")
         }
-        
+
+        self.baseURL = "https://px-ifpe.free.beeceptor.com"
+
         let params = MercadoPagoServices.getParamsAccessToken(payerAccessToken)
 
         self.request(uri: uri, params: params, body: bodyJSON, method: HTTPMethod.post, headers:

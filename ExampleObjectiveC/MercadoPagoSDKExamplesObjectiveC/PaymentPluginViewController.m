@@ -109,7 +109,7 @@
 }
 
 - (BOOL)supportSplitPaymentMethodPaymentWithCheckoutStore:(PXCheckoutStore * _Nonnull)checkoutStore {
-    return NO;
+    return YES;
 }
 
 - (IBAction)didTapOnPayButton {

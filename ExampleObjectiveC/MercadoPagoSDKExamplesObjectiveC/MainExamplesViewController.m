@@ -27,10 +27,15 @@
 //    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"TEST-391c666d-3757-4678-9ef6-d69c4d494cd1" checkoutPreference:self.pref paymentConfiguration:[self getPaymentConfiguration]];
 
     //  PREF CERRADA - Procesadora
-    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"TEST-391c666d-3757-4678-9ef6-d69c4d494cd1" preferenceId:@"181794596-79127f41-cf23-4aff-952e-7d8f75121084" paymentConfiguration:[self getPaymentConfiguration]];
+
+    // $3000
+//    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"TEST-113119e6-08b5-9263-e053-0f4910ac9c07" preferenceId:@"116212007-4df4fc74-cc8d-497b-89f1-f738ff231fca" paymentConfiguration:[self getPaymentConfiguration]];
+
+    // $100
+//    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"TEST-113119e6-08b5-9263-e053-0f4910ac9c07" preferenceId:@"116212007-41abd738-6e93-42f0-852a-79d09ef606a5" paymentConfiguration:[self getPaymentConfiguration]];
 
     //  PREF CERRADA - SIN PROCESADORA
-//    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"TEST-391c666d-3757-4678-9ef6-d69c4d494cd1" preferenceId:@"181794596-79127f41-cf23-4aff-952e-7d8f75121084"];
+    self.checkoutBuilder = [[MercadoPagoCheckoutBuilder alloc] initWithPublicKey:@"TEST-113119e6-08b5-9263-e053-0f4910ac9c07" preferenceId:@"116212007-41abd738-6e93-42f0-852a-79d09ef606a5"];
 
 
     //ACCESS TOKENS
@@ -38,7 +43,7 @@
 //    [self.checkoutBuilder setPrivateKeyWithKey:@"APP_USR-1505-092415-b89a7cdcec6cc6c3916deab0c56c7136-472129472"];
 
     //  Argentina
-    [self.checkoutBuilder setPrivateKeyWithKey:@"APP_USR-7092-091314-cc8f836a12b9bf78b16e77e4409ed873-470735636"];
+    [self.checkoutBuilder setPrivateKeyWithKey:@"APP_USR-7092-031718-96f5e05c7402014e3b8bfdf91c775966-537070442"];
 
     PXTrackingConfiguration *trackingConfig = [[PXTrackingConfiguration alloc] initWithTrackListener: self flowName:@"instore" flowDetails:nil sessionId:@"3783874"];
     [self.checkoutBuilder setTrackingConfigurationWithConfig: trackingConfig];
@@ -130,7 +135,7 @@
                                 @"PaymentMethodPlugins" bundle:[NSBundle mainBundle]];
     PaymentPluginViewController *paymentProcessorPlugin = [storyboard instantiateViewControllerWithIdentifier:@"paymentPlugin"];
     self.paymentConfig = [[PXPaymentConfiguration alloc] initWithSplitPaymentProcessor:paymentProcessorPlugin];
-    [self addCharges];
+//    [self addCharges];
     return self.paymentConfig;
 }
 
