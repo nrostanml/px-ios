@@ -18,7 +18,7 @@ import UIKit
      
      This property applies a color to the lower edge of the control. The default value for this property is a clear color.
      */
-    @IBInspectable dynamic var borderInactiveColor: UIColor? {
+    @IBInspectable var borderInactiveColor: UIColor? {
         didSet {
             updateBorder()
         }
@@ -29,7 +29,7 @@ import UIKit
      
      This property applies a color to the lower edge of the control. The default value for this property is a clear color.
      */
-    @IBInspectable dynamic var borderActiveColor: UIColor? {
+    @IBInspectable var borderActiveColor: UIColor? {
         didSet {
             updateBorder()
         }
@@ -40,7 +40,7 @@ import UIKit
 
      This property applies a color to the complete placeholder string. The default value for this property is a black color.
      */
-    @IBInspectable dynamic var placeholderColor: UIColor = .black {
+    @IBInspectable var placeholderColor: UIColor = .black {
         didSet {
             updatePlaceholder()
         }
@@ -51,7 +51,7 @@ import UIKit
      
      This property determines the size of the placeholder label relative to the font size of the text field.
     */
-    @IBInspectable dynamic var placeholderFontScale: CGFloat = 0.65 {
+    @IBInspectable var placeholderFontScale: CGFloat = 0.65 {
         didSet {
             updatePlaceholder()
         }
